@@ -28,6 +28,11 @@ Route::middleware('auth')->group(function (){
         // Index: Muestra la vista para create employee
         Route::get('personal/crear', 'EmployeeController@index')->name('employee.index')
             ->middleware('permission:create_employee');
+        //para retornar la lista de provincias al seleccionar un departamento
+        Route::get('personal/provinces', 'EmployeeController@getProvinces');
+        //para retornar la lista de distritos al seleccionar una provincia
+        Route::get('personal/districts', 'EmployeeController@getDistricts');
+
         //Store: Guarda employee
         Route::post('employee/store', 'EmployeeController@store')->name('employee.store')
             ->middleware('permission:store_employee');

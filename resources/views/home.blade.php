@@ -52,5 +52,7 @@
 	  'Dale click para ingresar!',
 	  'success'
 	)
+    toastr.info('Are you the 6 fingered man?')
+    toastr.success('Success messages');
 </script>
 @stop

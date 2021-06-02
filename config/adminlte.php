@@ -435,7 +435,7 @@ return [
                 ],
             ],
         ],
-        'Icheck-bootstrap' => [
+        'Toastr' => [
             'active' => true,
             'files' => [
                 [
@@ -443,7 +443,12 @@ return [
                     //true reemplaza al asset{{}}
                     'asset' => true,
                     //Usamos el archivo de nuestro proyecto
-                    'location' => 'vendor/icheck-bootstrap/icheck-bootstrap.min.js',
+                    'location' => 'vendor/toastr/toastr.min.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'vendor/toastr/toastr.min.css',
                 ],
             ],
         ],

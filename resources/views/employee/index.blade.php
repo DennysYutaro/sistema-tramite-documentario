@@ -12,79 +12,87 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form>
+              <form data-url="{{ route('employee.store') }}" id="formCreate" method="POST">
+                @csrf
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-4">
                           <!-- text input -->
                           <div class="form-group">
                             <label>Nombre</label>
-                            <input type="text" class="form-control" placeholder="Enter ...">
+                            <input style="text-transform:uppercase;" type="text" name="name" class="form-control" placeholder="">
                           </div>
                         </div>
                         <div class="col-sm-4">
                           <!-- text input -->
                           <div class="form-group">
                             <label>Apellido Paterno</label>
-                            <input type="text" class="form-control" placeholder="Enter ...">
+                            <input style="text-transform:uppercase;" type="text" name="father_name" class="form-control" placeholder="">
                           </div>
                         </div>
                         <div class="col-sm-4">
                           <!-- text input -->
                           <div class="form-group">
                             <label>Apellido Materno</label>
-                            <input type="text" class="form-control" placeholder="Enter ...">
+                            <input style="text-transform:uppercase;" type="text" name="mother_name" class="form-control" placeholder="">
                           </div>
                         </div>
                         <div class="col-sm-4">
                           <!-- text input -->
                           <div class="form-group">
                             <label>DNI</label>
-                            <input type="text" class="form-control" placeholder="Enter ...">
+                            <input type="number" name="dni" class="form-control" placeholder="">
                           </div>
                         </div>
                         <div class="col-sm-4">
                             <label>Género</label>
-                            <select class="form-control">
-                              <option selected="">FEMENINO</option>
-                              <option>MASCULINO</option>
+                            <select name="gender" class="form-control">
+                              <option value="" selected> Seleccione... </option>
+                              <option value="0">FEMENINO</option>
+                              <option value="1">MASCULINO</option>
                             </select>
                         </div>
 
                         <div class="col-sm-4">
                             <label>Fecha de nacimiento</label>
                             <div class="input-group">
-                            <input type="date" class="form-control" data-inputmask-alias="datetime" data-inputmask-inputformat="mm/dd/yyyy" data-mask="" inputmode="numeric">
+                            <input type="date" class="form-control" name="birth_date" data-inputmask-alias="datetime" data-inputmask-inputformat="mm/dd/yyyy" data-mask="" inputmode="numeric">
                             </div>
                         </div>
                         <div class="col-sm-4">
                           <!-- text input -->
                           <div class="form-group">
                             <label>Profesión</label>
-                            <input type="text" class="form-control" placeholder="Enter ...">
+                            <select class="form-control" id="" name="profession_id">
+                              <option value=""> Seleccione... </option>
+                                @foreach($professions as $profession)
+                                  <option value="{{ $profession->id }}">{{ $profession->profession_name }}</option>
+                                @endforeach
+                            </select>
                           </div>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-8">
                           <!-- text input -->
                           <div class="form-group">
                             <label>Email</label>
-                            <input type="text" class="form-control" placeholder="Enter ...">
+                            <input type="email" name="email" class="form-control" placeholder="">
                           </div>
                         </div>
                         <div class="col-sm-4">
                           <!-- text input -->
                           <div class="form-group">
                             <label>Telefono/Celular</label>
-                            <input type="text" class="form-control" placeholder="Enter ...">
+                            <input type="text" name="phone" class="form-control" placeholder="">
                           </div>
                         </div>
                         <div class="col-sm-4">
                           <!-- text input -->
                           <div class="form-group">
-                            <label>Cargo Familiar</label>
-                            <select class="form-control">
-                              <option selected="">SI</option>
-                              <option>NO</option>
+                            <label>Carga Familiar</label>
+                            <select name="family_burden" class="form-control">
+                              <option value="" selected> Seleccione... </option>
+                              <option value="0" >NO</option>
+                              <option value="1">SI</option>
                             </select>
                           </div>
                         </div>
@@ -92,47 +100,81 @@
                           <!-- text input -->
                           <div class="form-group">
                             <label>Pensión Familiar</label>
-                            <select class="form-control">
-                              <option>AFP</option>
-                              <option>NO</option>
+                            <select name="pension" class="form-control">
+                              <option value="" selected>Seleccione...</option>
+                              <option value="Profuturo">Profuturo</option>
+                              <option value="AFP Integra">AFP Integra</option>
+                              <option value="Prima AFP">Prima AFP</option>
+                              <option value="AFP Habitat">AFP Habitat</option>
+                              <option value="ONP">ONP</option>
                             </select>
                           </div>
                         </div>
                         <div class="col-sm-4">
                           <div class="form-group">
                             <label>Licencia de conducir</label>
-                            <select class="form-control">
-                              <option selected="">NO</option>
-                              <option>SI</option>
+                            <select name="license" class="form-control">
+                              <option value="" selected>Seleccione...</option>
+                              <option value="0">NO</option>
+                              <option value="1">SI</option>
                             </select>
                           </div>
                         </div>
-                        <div class="col-sm-12">
+                        <div class="col-sm-8">
+                          <div class="form-group">
+                            <label>Agencia donde permanecera</label>
+                            <select class="form-control" id="agency" name="agency_id">
+                              <option value=""> Seleccione... </option>
+                                @foreach($agencies as $agency)
+                                  <option value="{{ $agency->id }}">{{ $agency->agency_name }}</option>
+                                @endforeach
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-sm-8">
                           <!-- text input -->
                           <div class="form-group">
                             <label>Dirección de residencia</label>
-                            <input type="text" class="form-control" placeholder="Enter ...">
+                            <input name="address" type="text" class="form-control" placeholder="">
+                          </div>
+                        </div>
+                        <div class="col-sm-4">
+                          <!-- text input -->
+                          <div class="form-group">
+                            <label>Referencia</label>
+                            <input name="reference" type="text" class="form-control" placeholder="">
                           </div>
                         </div>
                         <div class="col-sm-4">
                           <!-- text input -->
                           <div class="form-group">
                             <label>Departamento</label>
-                            <input type="text" class="form-control" placeholder="Enter ...">
+                            <select class="form-control" id="department" name="department_id">
+                              <option value=""> Seleccione </option>
+                                @foreach($departments as $department)
+                                  <option value="{{ $department->id }}">{{ $department->name_departamento }}</option>
+                                @endforeach
+                            </select>
                           </div>
                         </div>
                         <div class="col-sm-4">
                           <!-- text input -->
                           <div class="form-group">
                             <label>Provincia</label>
-                            <input type="text" class="form-control" placeholder="Enter ...">
+                            <select class="form-control" id="province" name="province_id">
+                                    <option value=""> Seleccione </option>
+                                </select>
+                            </select>
                           </div>
                         </div>
                         <div class="col-sm-4">
                           <!-- text input -->
                           <div class="form-group">
                             <label>Distrito</label>
-                            <input type="text" class="form-control" placeholder="Enter ...">
+                            <select class="form-control" id="district" name="district_id">
+                                    <option value=""> Seleccione </option>
+                                </select>
+                            </select>
                           </div>
                         </div>
                         
@@ -142,26 +184,29 @@
                         <div class="col-sm-6">
                           <!-- text input -->
                           <div class="form-group">
-                            <label>Curriculum</label>
-                            <input type="text" class="form-control" placeholder="Enter ...">
+                            <label>Curriculum(pdf)</label>
+                            <input accept=".pdf,.docx" name="curriculum" type="file" id="cv" class="input-group-text btn-block"  name="curriculum">
                           </div>
                         </div>
                         <div class="col-sm-6">
                           <!-- text input -->
                           <div class="form-group">
-                            <label>Antecedentes Criminales</label>
-                            <input type="text" class="form-control" placeholder="Enter ...">
+                            <label>Antecedentes Criminales(pdf)</label>
+                            <input accept=".pdf,.docx" name="criminal_record" type="file" id="ap" class="input-group-text btn-block"  name="criminal_record">
                           </div>
                         </div>
                         <div class="col-sm-3">
                         </div>
                         <div class="col-sm-6">
                           <div class="form-group">
-                            <label>Fotografía del personal: </label>
+                            <label>Fotografía del personal(jpg,png,jpeg.) </label>
 
-                            <input type="file" id="imgInp" class="input-group-text btn-block"  name="myfile">
+                            <input accept="image/*" name="photo" type="file" id="imgInp" class="input-group-text btn-block imgNew" >
+                            <button id="btnDelete" type="button" class="btn float-right bg-gradient-danger btn-xs" data-toggle="tooltip" data-placement="right" title="Eliminar imagen subida"><i class="fas fa-power-off"></i></button>
                             <br>
-                            <img id="blah" src="{{asset('vendor/adminlte/dist/img/employee.png')}}" width="120px" height="150px" style="display:block;margin:auto;" alt="Tu imagen" class="img-fluid" />
+                            <div class="control-image">
+                              <img id="blah" src="{{asset('vendor/adminlte/dist/img/employee.png')}}" width="120px" height="150px" style="display:block;margin:auto;" alt="Tu imagen" class="img-fluid" />
+                            </div>
                           </div>
                         </div>
                         <div class="col-sm-3">
@@ -190,9 +235,117 @@
 @stop
 
 @section('js')
+
 <script>
+  $(document).ready(function() {
+    //Funcion para controlar la eliminacion de imgs
+    $(function() {
+      $('#btnDelete').click(function deleteImage(){
+        let delImg = document.querySelector(".control-image");
+        //console.log(delImg);
+        delImg.innerHTML  = `<img id="blah" src="{{asset('vendor/adminlte/dist/img/employee.png')}}" width="120px" height="150px" style="display:block;margin:auto;" alt="Tu imagen" class="img-fluid" />`;
+      });
+    });
+    //--------------------------------------------------
+    //Module department - province -district
+    $('#department').on('change',function(){
+        var department_id = $(this).val();
+        //console.log(departamento_id)
+        if(($.trim('department_id') != '') && (department_id != "")){
+            $.get('provinces',{department_id:department_id},function(provinces){
+                $('#province').empty();
+                $('#province').append("<option value=''>Seleccionar</option>");
+                $('#district').empty();
+                $('#district').append("<option value=''>Seleccionar</option>");
+                $.each(provinces,function(index, value){
+                    $('#province').append("<option value='"+ index +"'>"+ value +"</option>");
+                });
+            });
+        }
+        else{
+            $('#province').empty();
+            $('#province').append("<option value=''>Seleccionar</option>");
+            $('#district').empty();
+            $('#district').append("<option value=''>Seleccionar</option>");
+        }
+    });
+
+    $('#province').on('change',function(){
+        var province_id = $(this).val();
+        if($.trim(('province_id') != '') && (province_id != "")){
+            $.get('districts',{province_id:province_id},function(districts){
+                $('#district').empty();
+                $('#district').append("<option value=''>Seleccionar</option>");
+                $.each(districts,function(index, value){
+                    $('#district').append("<option value='"+ index +"'>"+ value +"</option>");
+                });
+            });
+        }
+        else{
+            $('#district').empty();
+            $('#district').append("<option value=''>Seleccionar</option>");
+        }
+    });
+    //Modulo para guardar un reglamo
+    $formCreate = $('#formCreate');
+    $formCreate.on('submit', sendData);
+  });
+  var $formCreate;
+
+        function sendData() {
+        event.preventDefault();
+        var createUrl = $formCreate.data('url');
+        $.ajax({
+            url: createUrl,
+            method: 'POST',
+            data: new FormData(this),
+            processData:false,
+            contentType:false,
+            success: function (data) {
+                console.log(data);
+                if (data != "") {
+                    for ( var property in data )  {
+                        toastr["error"](data[property])
+                        toastr.options = {
+                          "closeButton": true,
+                          "debug": false,
+                          "newestOnTop": false,
+                          "progressBar": true,
+                          "positionClass": "toast-top-right",
+                          "preventDuplicates": false,
+                          "onclick": null,
+                          "showDuration": "300",
+                          "hideDuration": "1000",
+                          "timeOut": "5000",
+                          "extendedTimeOut": "1000",
+                          "showEasing": "swing",
+                          "hideEasing": "linear",
+                          "showMethod": "fadeIn",
+                          "hideMethod": "fadeOut"
+                        }
+                    }
+                } else {
+                  Swal.fire(
+                    '¡Todo salio correctamente!',
+                    'Nuevo personal registrado con éxito.',
+                    'success'
+                    )
+                    setTimeout( function () {
+                        location.reload();
+                    }, 2500 )
+                }
+            }
+        });
+    }
+</script>
+
+
+<script>
+
+
 //Para la fotografia del personal
 function readImage (input) {
+
     if (input.files && input.files[0]) {
       var reader = new FileReader();
       reader.onload = function (e) {
@@ -202,42 +355,10 @@ function readImage (input) {
       reader.readAsDataURL(input.files[0]);
     }
   }
-  function readImage1 (input) {
-    if (input.files && input.files[0]) {
-      var reader = new FileReader();
-      reader.onload = function (e) {
-          $('#blah1').attr('src', e.target.result); // Renderizamos la imagen
-
-      }
-      reader.readAsDataURL(input.files[0]);
-    }
-  }
   $("#imgInp").change(function () {
     // Código a ejecutar cuando se detecta un cambio de archivO
     readImage(this);
   });
-  $("#imgInp1").change(function () {
-    // Código a ejecutar cuando se detecta un cambio de archivO
-    readImage1(this);
-  });
 </script>
 
-<script>
-  //Visualizador de Photo
-  /*
-  $(function () {
-    $(document).on('click', '[data-toggle="lightbox"]', function(event) {
-      event.preventDefault();
-      $(this).ekkoLightbox({
-        alwaysShowClose: true
-      });
-    });
-
-    $('.filter-container').filterizr({gutterPixels: 3});
-    $('.btn[data-filter]').on('click', function() {
-      $('.btn[data-filter]').removeClass('active');
-      $(this).addClass('active');
-    });
-  })*/
-</script>
 @endsection
