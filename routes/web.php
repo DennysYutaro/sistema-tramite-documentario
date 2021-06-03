@@ -25,6 +25,7 @@ Route::middleware('auth')->group(function (){
     	Route::get('home', 'HomeController@dashboard')->name('dashboard')
             ->middleware('permission:access_dashboard');
         // TODO: Rutas módulo Employee
+        
         // Index: Muestra la vista para create employee
         Route::get('personal/crear', 'EmployeeController@index')->name('employee.index')
             ->middleware('permission:create_employee');
@@ -32,10 +33,13 @@ Route::middleware('auth')->group(function (){
         Route::get('personal/provinces', 'EmployeeController@getProvinces');
         //para retornar la lista de distritos al seleccionar una provincia
         Route::get('personal/districts', 'EmployeeController@getDistricts');
-
         //Store: Guarda employee
         Route::post('employee/store', 'EmployeeController@store')->name('employee.store')
             ->middleware('permission:store_employee');
+
+        Route::get('personal/listar', 'EmployeeController@show')->name('employee.show')
+            ->middleware('permission:create_employee');
+
         //Edit: mostrar el formulario de actualizacion
         Route::get('personal/actualizar/{id}', 'EmployeeController@edit')->name('employee.edit')
             ->middleware('permission:edit_employee');

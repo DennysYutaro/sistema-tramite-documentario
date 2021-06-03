@@ -198,7 +198,7 @@
                         <div class="col-sm-3">
                         </div>
                         <div class="col-sm-6">
-                          <div class="form-group">
+                          <div class="form-group ">
                             <label>Fotografía del personal(jpg,png,jpeg.) </label>
 
                             <input accept="image/*" name="photo" type="file" id="imgInp" class="input-group-text btn-block imgNew" >
@@ -242,8 +242,10 @@
     $(function() {
       $('#btnDelete').click(function deleteImage(){
         let delImg = document.querySelector(".control-image");
+        let imgNew = document.querySelector(".imgNew");
         //console.log(delImg);
         delImg.innerHTML  = `<img id="blah" src="{{asset('vendor/adminlte/dist/img/employee.png')}}" width="120px" height="150px" style="display:block;margin:auto;" alt="Tu imagen" class="img-fluid" />`;
+        imgNew.value = "";
       });
     });
     //--------------------------------------------------
@@ -331,8 +333,9 @@
                     'success'
                     )
                     setTimeout( function () {
-                        location.reload();
-                    }, 2500 )
+                        url = "{{route('employee.show')}}";
+                        $(location).attr('href',url);
+                    }, 2000 )
                 }
             }
         });

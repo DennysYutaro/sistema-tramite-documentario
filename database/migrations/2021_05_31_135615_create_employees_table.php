@@ -46,6 +46,7 @@ class CreateEmployeesTable extends Migration
             $table->string('photo')->nullable();
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

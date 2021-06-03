@@ -165,9 +165,11 @@ class EmployeeController extends Controller
         }
         return response()->json($validator->messages(), 200);
     }
-    public function show(Employee $employee)
+    public function show()
     {
         //
+        $employees = Employee::get(['id','name','father_name','mother_name','dni','photo','curriculum','criminal_record']);
+        return view('employee.show',compact('employees'));
     }
 
     public function edit(Employee $employee)
