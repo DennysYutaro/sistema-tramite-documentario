@@ -168,7 +168,7 @@ class EmployeeController extends Controller
     public function show()
     {
         //
-        $employees = Employee::get(['id','name','father_name','mother_name','dni','photo','curriculum','criminal_record']);
+        $employees = Employee::get(['id','name','father_name','mother_name','dni','photo','agency_id','phone','family_burden']);
         return view('employee.show',compact('employees'));
     }
 

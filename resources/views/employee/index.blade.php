@@ -6,232 +6,232 @@
 <!--para traer plugins de adminite section('plugins.Sweetalert2',true) ya activamos el plugin no necesitamos invocalarlo-->
 
 @section('content')
-    <div class="card card-success">
-              <div class="card-header">
-                <h3 class="card-title" style="font-weight: bold;"><i class="fas fa-file-alt"></i> Registro del Personal </h3>
+<div class="card card-success">
+    <div class="card-header">
+      <h3 class="card-title" style="font-weight: bold;"><i class="fas fa-file-alt"></i> Registro del Personal </h3>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
+    <form data-url="{{ route('employee.store') }}" id="formCreate" method="POST">
+      @csrf
+      <div class="card-body">
+          <div class="row">
+              <div class="col-sm-4">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Nombre</label>
+                  <input id="n" type="text" name="name" class="form-control" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()">
+                </div>
               </div>
-              <!-- /.card-header -->
-              <!-- form start -->
-              <form data-url="{{ route('employee.store') }}" id="formCreate" method="POST">
-                @csrf
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-4">
-                          <!-- text input -->
-                          <div class="form-group">
-                            <label>Nombre</label>
-                            <input style="text-transform:uppercase;" type="text" name="name" class="form-control" placeholder="">
-                          </div>
-                        </div>
-                        <div class="col-sm-4">
-                          <!-- text input -->
-                          <div class="form-group">
-                            <label>Apellido Paterno</label>
-                            <input style="text-transform:uppercase;" type="text" name="father_name" class="form-control" placeholder="">
-                          </div>
-                        </div>
-                        <div class="col-sm-4">
-                          <!-- text input -->
-                          <div class="form-group">
-                            <label>Apellido Materno</label>
-                            <input style="text-transform:uppercase;" type="text" name="mother_name" class="form-control" placeholder="">
-                          </div>
-                        </div>
-                        <div class="col-sm-4">
-                          <!-- text input -->
-                          <div class="form-group">
-                            <label>DNI</label>
-                            <input type="number" name="dni" class="form-control" placeholder="">
-                          </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <label>Género</label>
-                            <select name="gender" class="form-control">
-                              <option value="" selected> Seleccione... </option>
-                              <option value="0">FEMENINO</option>
-                              <option value="1">MASCULINO</option>
-                            </select>
-                        </div>
-
-                        <div class="col-sm-4">
-                            <label>Fecha de nacimiento</label>
-                            <div class="input-group">
-                            <input type="date" class="form-control" name="birth_date" data-inputmask-alias="datetime" data-inputmask-inputformat="mm/dd/yyyy" data-mask="" inputmode="numeric">
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                          <!-- text input -->
-                          <div class="form-group">
-                            <label>Profesión</label>
-                            <select class="form-control" id="" name="profession_id">
-                              <option value=""> Seleccione... </option>
-                                @foreach($professions as $profession)
-                                  <option value="{{ $profession->id }}">{{ $profession->profession_name }}</option>
-                                @endforeach
-                            </select>
-                          </div>
-                        </div>
-                        <div class="col-sm-8">
-                          <!-- text input -->
-                          <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" name="email" class="form-control" placeholder="">
-                          </div>
-                        </div>
-                        <div class="col-sm-4">
-                          <!-- text input -->
-                          <div class="form-group">
-                            <label>Telefono/Celular</label>
-                            <input type="text" name="phone" class="form-control" placeholder="">
-                          </div>
-                        </div>
-                        <div class="col-sm-4">
-                          <!-- text input -->
-                          <div class="form-group">
-                            <label>Carga Familiar</label>
-                            <select name="family_burden" class="form-control">
-                              <option value="" selected> Seleccione... </option>
-                              <option value="0" >NO</option>
-                              <option value="1">SI</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="col-sm-4">
-                          <!-- text input -->
-                          <div class="form-group">
-                            <label>Pensión Familiar</label>
-                            <select name="pension" class="form-control">
-                              <option value="" selected>Seleccione...</option>
-                              <option value="Profuturo">Profuturo</option>
-                              <option value="AFP Integra">AFP Integra</option>
-                              <option value="Prima AFP">Prima AFP</option>
-                              <option value="AFP Habitat">AFP Habitat</option>
-                              <option value="ONP">ONP</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="col-sm-4">
-                          <div class="form-group">
-                            <label>Licencia de conducir</label>
-                            <select name="license" class="form-control">
-                              <option value="" selected>Seleccione...</option>
-                              <option value="0">NO</option>
-                              <option value="1">SI</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="col-sm-8">
-                          <div class="form-group">
-                            <label>Agencia donde permanecera</label>
-                            <select class="form-control" id="agency" name="agency_id">
-                              <option value=""> Seleccione... </option>
-                                @foreach($agencies as $agency)
-                                  <option value="{{ $agency->id }}">{{ $agency->agency_name }}</option>
-                                @endforeach
-                            </select>
-                          </div>
-                        </div>
-                        <div class="col-sm-8">
-                          <!-- text input -->
-                          <div class="form-group">
-                            <label>Dirección de residencia</label>
-                            <input name="address" type="text" class="form-control" placeholder="">
-                          </div>
-                        </div>
-                        <div class="col-sm-4">
-                          <!-- text input -->
-                          <div class="form-group">
-                            <label>Referencia</label>
-                            <input name="reference" type="text" class="form-control" placeholder="">
-                          </div>
-                        </div>
-                        <div class="col-sm-4">
-                          <!-- text input -->
-                          <div class="form-group">
-                            <label>Departamento</label>
-                            <select class="form-control" id="department" name="department_id">
-                              <option value=""> Seleccione </option>
-                                @foreach($departments as $department)
-                                  <option value="{{ $department->id }}">{{ $department->name_departamento }}</option>
-                                @endforeach
-                            </select>
-                          </div>
-                        </div>
-                        <div class="col-sm-4">
-                          <!-- text input -->
-                          <div class="form-group">
-                            <label>Provincia</label>
-                            <select class="form-control" id="province" name="province_id">
-                                    <option value=""> Seleccione </option>
-                                </select>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="col-sm-4">
-                          <!-- text input -->
-                          <div class="form-group">
-                            <label>Distrito</label>
-                            <select class="form-control" id="district" name="district_id">
-                                    <option value=""> Seleccione </option>
-                                </select>
-                            </select>
-                          </div>
-                        </div>
-                        
-                        <div class="col-sm-12">
-                          <hr>
-                        </div>
-                        <div class="col-sm-6">
-                          <!-- text input -->
-                          <div class="form-group">
-                            <label>Curriculum(pdf)</label>
-                            <input accept=".pdf,.docx" name="curriculum" type="file" id="cv" class="input-group-text btn-block"  name="curriculum">
-                          </div>
-                        </div>
-                        <div class="col-sm-6">
-                          <!-- text input -->
-                          <div class="form-group">
-                            <label>Antecedentes Criminales(pdf)</label>
-                            <input accept=".pdf,.docx" name="criminal_record" type="file" id="ap" class="input-group-text btn-block"  name="criminal_record">
-                          </div>
-                        </div>
-                        <div class="col-sm-3">
-                        </div>
-                        <div class="col-sm-6">
-                          <div class="form-group ">
-                            <label>Fotografía del personal(jpg,png,jpeg.) </label>
-
-                            <input accept="image/*" name="photo" type="file" id="imgInp" class="input-group-text btn-block imgNew" >
-                            <button id="btnDelete" type="button" class="btn float-right bg-gradient-danger btn-xs" data-toggle="tooltip" data-placement="right" title="Eliminar imagen subida"><i class="fas fa-power-off"></i></button>
-                            <br>
-                            <div class="control-image">
-                              <img id="blah" src="{{asset('vendor/adminlte/dist/img/employee.png')}}" width="120px" height="150px" style="display:block;margin:auto;" alt="Tu imagen" class="img-fluid" />
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-sm-3">
-                        </div>
-                        <div class="col-sm-3">
-                        </div>
-                        <div class="col-sm-3">
-                          <button type="submit" class="btn btn-success btn-block">Registrar</button>
-                        </div>
-                        <div class="col-sm-3">
-                          <button type="button" class="btn btn-danger btn-block">Declinar</button>
-                        </div>
-                        <div class="col-sm-3">
-                        </div>
-                        <div class="col-sm-12">
-                          <hr>
-                        </div>
+              <div class="col-sm-4">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Apellido Paterno</label>
+                  <input type="text" name="father_name" class="form-control" id="f" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()">
                 </div>
-                <!-- /.card-body -->
-
-                <div class="card-footer">
-                  <label>Area de TIC - Dennys Yutaro Sullcahuaman Valdez</label>
+              </div>
+              <div class="col-sm-4">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Apellido Materno</label>
+                  <input type="text" name="mother_name" class="form-control" id="m" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()">
                 </div>
-              </form>
-            </div>
+              </div>
+              <div class="col-sm-4">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>DNI</label>
+                  <input type="number" name="dni" class="form-control" placeholder="">
+                </div>
+              </div>
+              <div class="col-sm-4">
+                  <label>Género</label>
+                  <select name="gender" class="form-control">
+                    <option value="" selected> Seleccione... </option>
+                    <option value="0">FEMENINO</option>
+                    <option value="1">MASCULINO</option>
+                  </select>
+              </div>
+
+              <div class="col-sm-4">
+                  <label>Fecha de nacimiento</label>
+                  <div class="input-group">
+                  <input type="date" class="form-control" name="birth_date" data-inputmask-alias="datetime" data-inputmask-inputformat="mm/dd/yyyy" data-mask="" inputmode="numeric">
+                  </div>
+              </div>
+              <div class="col-sm-4">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Profesión</label>
+                  <select class="form-control" id="" name="profession_id">
+                    <option value=""> Seleccione... </option>
+                      @foreach($professions as $profession)
+                        <option value="{{ $profession->id }}">{{ $profession->profession_name }}</option>
+                      @endforeach
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-8">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Email</label>
+                  <input type="email" name="email" class="form-control" placeholder="">
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Telefono/Celular</label>
+                  <input type="text" name="phone" class="form-control" placeholder="">
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Carga Familiar</label>
+                  <select name="family_burden" class="form-control">
+                    <option value="" selected> Seleccione... </option>
+                    <option value="0" >NO</option>
+                    <option value="1">SI</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Pensión Familiar</label>
+                  <select name="pension" class="form-control">
+                    <option value="" selected>Seleccione...</option>
+                    <option value="Profuturo">Profuturo</option>
+                    <option value="AFP Integra">AFP Integra</option>
+                    <option value="Prima AFP">Prima AFP</option>
+                    <option value="AFP Habitat">AFP Habitat</option>
+                    <option value="ONP">ONP</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label>Licencia de conducir</label>
+                  <select name="license" class="form-control">
+                    <option value="" selected>Seleccione...</option>
+                    <option value="0">NO</option>
+                    <option value="1">SI</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-8">
+                <div class="form-group">
+                  <label>Agencia donde permanecera</label>
+                  <select class="form-control" id="agency" name="agency_id">
+                    <option value=""> Seleccione... </option>
+                      @foreach($agencies as $agency)
+                        <option value="{{ $agency->id }}">{{ $agency->agency_name }}</option>
+                      @endforeach
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-8">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Dirección de residencia</label>
+                  <input name="address" type="text" class="form-control" placeholder="">
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Referencia</label>
+                  <input name="reference" type="text" class="form-control" placeholder="">
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Departamento</label>
+                  <select class="form-control" id="department" name="department_id">
+                    <option value=""> Seleccione </option>
+                      @foreach($departments as $department)
+                        <option value="{{ $department->id }}">{{ $department->name_departamento }}</option>
+                      @endforeach
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Provincia</label>
+                  <select class="form-control" id="province" name="province_id">
+                          <option value=""> Seleccione </option>
+                      </select>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Distrito</label>
+                  <select class="form-control" id="district" name="district_id">
+                          <option value=""> Seleccione </option>
+                      </select>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="col-sm-12">
+                <hr>
+              </div>
+              <div class="col-sm-6">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Curriculum(pdf)</label>
+                  <input accept=".pdf,.docx" name="curriculum" type="file" id="cv" class="input-group-text btn-block"  name="curriculum">
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Antecedentes Criminales(pdf)</label>
+                  <input accept=".pdf,.docx" name="criminal_record" type="file" id="ap" class="input-group-text btn-block"  name="criminal_record">
+                </div>
+              </div>
+              <div class="col-sm-3">
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group ">
+                  <label>Fotografía del personal(jpg,png,jpeg.) </label>
+
+                  <input accept="image/*" name="photo" type="file" id="imgInp" class="input-group-text btn-block imgNew" >
+                  <button id="btnDelete" type="button" class="btn float-right bg-gradient-danger btn-xs" data-toggle="tooltip" data-placement="right" title="Eliminar imagen subida"><i class="fas fa-power-off"></i></button>
+                  <br>
+                  <div class="control-image">
+                    <img id="blah" src="{{asset('vendor/adminlte/dist/img/employee.png')}}" width="120px" height="150px" style="display:block;margin:auto;" alt="Tu imagen" class="img-fluid" />
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+              </div>
+              <div class="col-sm-3">
+              </div>
+              <div class="col-sm-3">
+                <button type="submit" class="btn btn-success btn-block">Registrar</button>
+              </div>
+              <div class="col-sm-3">
+                <button type="button" class="btn btn-danger btn-block">Declinar</button>
+              </div>
+              <div class="col-sm-3">
+              </div>
+              <div class="col-sm-12">
+                <hr>
+              </div>
+      </div>
+      <!-- /.card-body -->
+
+      <div class="card-footer">
+        <label>Area de TIC - Dennys Yutaro Sullcahuaman Valdez</label>
+      </div>
+    </form>
+  </div>
 @stop
 
 @section('js')
@@ -335,7 +335,7 @@
                     setTimeout( function () {
                         url = "{{route('employee.show')}}";
                         $(location).attr('href',url);
-                    }, 2000 )
+                    }, 1500 )
                 }
             }
         });

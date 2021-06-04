@@ -33,4 +33,9 @@ class Employee extends Model
             'photo'
         ];
     protected $dates = ['delete_at'];
+
+    public function agency()
+    {
+        return $this->belongsTo('App\Agency');
+    }
 }

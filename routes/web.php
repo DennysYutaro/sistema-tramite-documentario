@@ -36,8 +36,12 @@ Route::middleware('auth')->group(function (){
         //Store: Guarda employee
         Route::post('employee/store', 'EmployeeController@store')->name('employee.store')
             ->middleware('permission:store_employee');
-
+        //Listar empleados
         Route::get('personal/listar', 'EmployeeController@show')->name('employee.show')
+            ->middleware('permission:create_employee');
+
+        //Muestra vista para crud para agregar familar a empleado
+        Route::get('personal/familar/crear/{id}', 'RelativeController@index')->name('employee.relative.index')
             ->middleware('permission:create_employee');
 
         //Edit: mostrar el formulario de actualizacion
