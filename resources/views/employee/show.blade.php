@@ -8,7 +8,7 @@
 <!--para traer plugins de adminite section('plugins.Sweetalert2',true) ya activamos el plugin no necesitamos invocalarlo-->
 
 @section('content')
-    <h1 style="text-align: center;font-weight: bold;">Lista de personal registrado</h1>
+    <h2 style="text-align: center;font-weight: bold;">LISTA DE PERSONAL REGISTRADO</h2>
     <hr>
     <a class="btn btn-info" href="{{route('employee.index')}}" type="button">
       <i class="fas fa-address-book" ></i> Registar nuevo personal

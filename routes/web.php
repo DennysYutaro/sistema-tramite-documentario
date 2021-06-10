@@ -43,6 +43,14 @@ Route::middleware('auth')->group(function (){
         //Muestra vista para crud para agregar familar a empleado
         Route::get('personal/familar/crear/{id}', 'RelativeController@index')->name('employee.relative.index')
             ->middleware('permission:create_employee');
+        Route::post('employee/relative/store', 'RelativeController@store')->name('employee.relative.store')
+            ->middleware('permission:create_employee');
+        //Modificar un pariente del empleado
+        Route::post('employee/relative/update', 'RelativeController@update')->name('employee.relative.update')
+            ->middleware('permission:update_employee');
+        //To delete a relative
+        Route::post('employee/relative/delete', 'RelativeController@delete')->name('employee.relative.delete')
+            ->middleware('permission:update_employee');
 
         //Edit: mostrar el formulario de actualizacion
         Route::get('personal/actualizar/{id}', 'EmployeeController@edit')->name('employee.edit')
