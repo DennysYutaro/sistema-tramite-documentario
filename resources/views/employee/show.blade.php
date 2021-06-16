@@ -10,7 +10,7 @@
 @section('content')
     <h2 style="text-align: center;font-weight: bold;">LISTA DE PERSONAL REGISTRADO</h2>
     <hr>
-    <a class="btn btn-info" href="{{route('employee.index')}}" type="button">
+    <a class="btn btn-success" href="{{route('employee.index')}}" type="button">
       <i class="fas fa-address-book" ></i> Registar nuevo personal
     </a>
     <div class="custom-control custom-checkbox float-right">
@@ -36,22 +36,22 @@
           <tbody>
             @foreach ($employees as $employee)
                 <tr style="font-size: .7em; text-align:center">                            
-                    <td style="font-size: 1.5em; font-weight: bold; ">
+                    <td style="font-size: 1.3em; font-weight: bold; ">
                       {{$employee->id}}
                     </td>
-                    <td style="font-size: 1.5em;font-weight: bold;">
+                    <td style="font-size: 1.3em;font-weight: bold;">
                       {{$employee->name}} {{$employee->father_name}} {{$employee->mother_name}}
                     </td>
-                    <td style="font-size: 1.5em;font-weight: bold;">
+                    <td style="font-size: 1.3em;font-weight: bold;">
                       {{$employee->dni}}
                     </td>
-                    <td style="font-size: 1.5em;font-weight: bold;">
+                    <td style="font-size: 1.3em;font-weight: bold;">
                       {{$employee->phone}}
                     </td>
-                    <td style="font-size: 1.5em;font-weight: bold;">
+                    <td style="font-size: 1.3em;font-weight: bold;">
                       {{$employee->agency->agency_name}}
                     </td>
-                    <td style="font-size: 1.5em;font-weight: bold;">
+                    <td style="font-size: 1.3em;font-weight: bold;">
                       @if(($employee->family_burden) == 0)
                         <a class="btn btn-warning btn-xs disabled">
                           NO <i class="fas fa-user-lock"></i> 
@@ -67,17 +67,17 @@
                         <a href="{{ asset('employee.png') }}" data-toggle="lightbox" class="btn btn-outline-secondary btn-block btn-xs">
                           <i class="far fa-image"></i>
                         </a>
-                      @else
-                        <a href="{{asset('images/employees/'.$employee->photo)}}" data-toggle="lightbox" class="btn btn-outline-secondary btn-block btn-xs">
-                          <i class="far fa-image"></i>
-                        </a>
-                      @endif
+                        @else
+                          <a href="{{asset('images/employees/'.$employee->photo)}}" data-toggle="lightbox" class="btn btn-outline-secondary btn-block btn-xs">
+                            <i class="far fa-image"></i>
+                          </a>
+                        @endif
                     </td>
                     <td>
-                      <a class="btn btn-success btn-xs">
+                      <a class="btn btn-info btn-xs" href="{{route('employee.see', $employee->id)}}" type="button">
                         <i class="far fa-eye"></i>
                       </a>
-                      <a class="btn btn-danger btn-xs">
+                      <a class="btn btn-secondary btn-xs" href="{{route('employee.edit', $employee->id)}}" type="button">
                         <i class="fas fa-user-edit"></i>
                       </a>
                     </td>
@@ -92,21 +92,44 @@
 @section('js')
 
 <script>
-   $(document).ready(function () {
-        $('#tableNormative').DataTable();
-        /*
-        $modalEdit = $('#modalEdit');
-        $('[data-edit]').on('click', openModalEdit);
-        function openModalEdit() {
-          var category_id = $(this).data('edit');
-          $modalEdit.modal('show');
-        }*/
+$(document).ready(function () {
+
+    $('#tableNormative').DataTable({
+      language: {
+        "decimal": "",
+        "emptyTable": "No hay información",
+        "info": "Mostrando [_START_ a _END_] total de _TOTAL_ registros",
+        "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+        "infoPostFix": "",
+        "thousands": ",",
+        "lengthMenu": " ",
+        "loadingRecords": "Cargando...",
+        "processing": "Procesando...",
+        "search": "Buscar:",
+        "zeroRecords": "Sin resultados encontrados",
+        "paginate": {
+            "first": "Primero",
+            "last": "Ultimo",
+            "next": "Siguiente",
+            "previous": "Anterior"
+        }
+    },
     });
-   $(document).on('click', '[data-toggle="lightbox"]', function(event) {
-                event.preventDefault();
-                $(this).ekkoLightbox();
-    });
-    var $modalEdit;
+
+    /*
+    $modalEdit = $('#modalEdit');
+    $('[data-edit]').on('click', openModalEdit);
+    function openModalEdit() {
+      var category_id = $(this).data('edit');
+      $modalEdit.modal('show');
+    }*/
+});
+$(document).on('click', '[data-toggle="lightbox"]', function(event) {
+            event.preventDefault();
+            $(this).ekkoLightbox();
+});
+var $modalEdit;
 </script>
 
 

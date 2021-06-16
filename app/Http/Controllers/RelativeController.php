@@ -18,8 +18,7 @@ class RelativeController extends Controller
         $nro = 0;
         $employee = Employee::find($id);
         $relatives = Relative::where('employee_id', $id)->get();
-        $edad = Carbon::now();
-        return view('relative.index', compact('employee','relatives','nro','edad'));
+        return view('relative.index', compact('employee','relatives','nro'));
     }
 
     public function store(Request $request)

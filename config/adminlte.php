@@ -309,6 +309,10 @@ return [
                     'text' => 'Listar Profesiones',
                     'url'  => '#',
                 ],
+                [
+                    'text' => 'Registrar Profesión',
+                    'url'  => '#',
+                ],
 
             ],
         ],

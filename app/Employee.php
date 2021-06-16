@@ -38,4 +38,20 @@ class Employee extends Model
     {
         return $this->belongsTo('App\Agency');
     }
+    public function profession()
+    {
+        return $this->belongsTo('App\Profession');
+    }
+    public function department()
+    {
+        return $this->belongsTo('App\Department');
+    }
+    public function province()
+    {
+        return $this->belongsTo('App\Province');
+    }
+    public function district()
+    {
+        return $this->belongsTo('App\District');
+    }
 }

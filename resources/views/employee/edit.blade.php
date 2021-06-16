@@ -3,60 +3,64 @@
 @endsection
 @section('plugins.Ekko-lightbox',true)
 @section('title', 'Empleado')
-<!--para traer plugins de adminite section('plugins.Sweetalert2',true) ya activamos el plugin no necesitamos invocalarlo-->
 
 @section('content')
-<div class="card card-success">
+<div class="card card-secondary">
     <div class="card-header">
-      <h3 class="card-title" style="font-weight: bold;"><i class="fas fa-file-alt"></i> Registro del Personal </h3>
+      <h3 class="card-title" style="font-weight: bold;"><i class="fas fa-file-alt"></i> Modificar personal </h3>
     </div>
     <!-- /.card-header -->
     <!-- form start -->
-    <form data-url="{{ route('employee.store') }}" id="formCreate" method="POST">
+    <form data-url="{{ route('employee.update',$employee->id) }}" id="formEdit" method="POST">
       @csrf
       <div class="card-body">
           <div class="row">
+            <input hidden type="text" value="{{$employee->id}}" name="employee_id">
               <div class="col-sm-4">
                 <!-- text input -->
                 <div class="form-group">
                   <label>Nombre</label>
-                  <input id="n" type="text" name="name" class="form-control" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()">
+                  <input id="n" type="text" name="name" class="form-control" value="{{$employee->name}}" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()">
                 </div>
               </div>
               <div class="col-sm-4">
                 <!-- text input -->
                 <div class="form-group">
                   <label>Apellido Paterno</label>
-                  <input type="text" name="father_name" class="form-control" id="f" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()">
+                  <input type="text" name="father_name" class="form-control" id="f" value="{{$employee->father_name}}" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()">
                 </div>
               </div>
               <div class="col-sm-4">
                 <!-- text input -->
                 <div class="form-group">
                   <label>Apellido Materno</label>
-                  <input type="text" name="mother_name" class="form-control" id="m" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()">
+                  <input type="text" name="mother_name" class="form-control" id="m" value="{{$employee->mother_name}}" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()">
                 </div>
               </div>
               <div class="col-sm-4">
                 <!-- text input -->
                 <div class="form-group">
                   <label>DNI</label>
-                  <input type="number" name="dni" class="form-control" placeholder="">
+                  <input type="number" name="dni" class="form-control" value="{{$employee->dni}}" placeholder="">
                 </div>
               </div>
               <div class="col-sm-4">
                   <label>Género</label>
                   <select name="gender" class="form-control">
-                    <option value="" selected> Seleccione... </option>
-                    <option value="0">FEMENINO</option>
-                    <option value="1">MASCULINO</option>
+                    @if($employee->gender == 0)
+                      <option value="{{$employee->gender}}" selected>FEMENINO</option>
+                      <option value="1">MASCULINO</option>
+                    @else
+                      <option value="{{$employee->gender}}" selected>MASCULINO</option>
+                      <option value="0">FEMENINO</option>
+                    @endif
                   </select>
               </div>
 
               <div class="col-sm-4">
                   <label>Fecha de nacimiento</label>
                   <div class="input-group">
-                  <input type="date" class="form-control" name="birth_date" data-inputmask-alias="datetime" data-inputmask-inputformat="mm/dd/yyyy" data-mask="" inputmode="numeric">
+                  <input type="date" value="{{$employee->birth_date}}"  class="form-control" name="birth_date" data-inputmask-alias="datetime" data-inputmask-inputformat="mm/dd/yyyy" data-mask="" inputmode="numeric">
                   </div>
               </div>
               <div class="col-sm-4">
@@ -64,7 +68,7 @@
                 <div class="form-group">
                   <label>Profesión</label>
                   <select class="form-control" id="" name="profession_id">
-                    <option value=""> Seleccione... </option>
+                    <option value="{{$employee->profession_id}}"> {{$employee->profession->profession_name}} </option>
                       @foreach($professions as $profession)
                         <option value="{{ $profession->id }}">{{ $profession->profession_name }}</option>
                       @endforeach
@@ -75,14 +79,14 @@
                 <!-- text input -->
                 <div class="form-group">
                   <label>Email</label>
-                  <input type="email" name="email" class="form-control" placeholder="">
+                  <input type="email" name="email" class="form-control" placeholder="" value="{{$employee->email}}">
                 </div>
               </div>
               <div class="col-sm-4">
                 <!-- text input -->
                 <div class="form-group">
                   <label>Telefono/Celular</label>
-                  <input type="text" name="phone" class="form-control" placeholder="">
+                  <input type="text" name="phone" class="form-control" placeholder="" value="{{$employee->phone}}">
                 </div>
               </div>
               <div class="col-sm-4">
@@ -90,9 +94,13 @@
                 <div class="form-group">
                   <label>Carga Familiar</label>
                   <select name="family_burden" class="form-control">
-                    <option value="" selected> Seleccione... </option>
-                    <option value="0" >NO</option>
-                    <option value="1">SI</option>
+                    @if($employee->family_burden == 0)
+                      <option value="{{$employee->family_burden}}" selected> NO </option>
+                      <option value="1">SI</option>
+                    @else
+                      <option value="{{$employee->family_burden}}" selected> SI </option>
+                      <option value="0" >NO</option>
+                    @endif
                   </select>
                 </div>
               </div>
@@ -101,7 +109,7 @@
                 <div class="form-group">
                   <label>Pensión Familiar</label>
                   <select name="pension" class="form-control">
-                    <option value="" selected>Seleccione...</option>
+                    <option value="{{$employee->pension}}" selected>{{$employee->pension}}</option>
                     <option value="Profuturo">Profuturo</option>
                     <option value="AFP Integra">AFP Integra</option>
                     <option value="Prima AFP">Prima AFP</option>
@@ -114,9 +122,13 @@
                 <div class="form-group">
                   <label>Licencia de conducir</label>
                   <select name="license" class="form-control">
-                    <option value="" selected>Seleccione...</option>
-                    <option value="0">NO</option>
-                    <option value="1">SI</option>
+                    @if($employee->license == 0)
+                      <option value="{{$employee->license}}" selected> NO </option>
+                      <option value="1">SI</option>
+                    @else
+                      <option value="{{$employee->license}}" selected> SI </option>
+                      <option value="0">NO</option>
+                    @endif
                   </select>
                 </div>
               </div>
@@ -124,7 +136,7 @@
                 <div class="form-group">
                   <label>Agencia donde permanecera</label>
                   <select class="form-control" id="agency" name="agency_id">
-                    <option value=""> Seleccione... </option>
+                    <option value="{{$employee->agency_id}}"> {{$employee->agency->agency_name}} </option>
                       @foreach($agencies as $agency)
                         <option value="{{ $agency->id }}">{{ $agency->agency_name }}</option>
                       @endforeach
@@ -135,46 +147,35 @@
                 <!-- text input -->
                 <div class="form-group">
                   <label>Dirección de residencia</label>
-                  <input name="address" type="text" class="form-control" placeholder="">
+                  <input name="address" type="text" class="form-control" placeholder="" value="{{$employee->address}}">
                 </div>
               </div>
               <div class="col-sm-4">
                 <!-- text input -->
                 <div class="form-group">
-                  <label>Referencia</label>
-                  <input name="reference" type="text" class="form-control" placeholder="">
+                  <label>Referencia/Observaciones</label>
+                  <input name="reference" type="text" class="form-control" placeholder="" value="{{$employee->reference}}">
                 </div>
               </div>
-              <div class="col-sm-4">
+              <div hidden class="col-sm-4">
                 <!-- text input -->
                 <div class="form-group">
                   <label>Departamento</label>
-                  <select class="form-control" id="department" name="department_id">
-                    <option value=""> Seleccione </option>
-                      @foreach($departments as $department)
-                        <option value="{{ $department->id }}">{{ $department->name_departamento }}</option>
-                      @endforeach
-                  </select>
+                  <input type="text" readonly name="department_id" value="{{$employee->department_id}}">
                 </div>
               </div>
-              <div class="col-sm-4">
+              <div hidden class="col-sm-4">
                 <!-- text input -->
                 <div class="form-group">
                   <label>Provincia</label>
-                  <select class="form-control" id="province" name="province_id">
-                          <option value=""> Seleccione </option>
-                      </select>
-                  </select>
+                  <input type="text" readonly name="province_id" value="{{$employee->province_id}}">
                 </div>
               </div>
-              <div class="col-sm-4">
+              <div hidden class="col-sm-4">
                 <!-- text input -->
                 <div class="form-group">
                   <label>Distrito</label>
-                  <select class="form-control" id="district" name="district_id">
-                          <option value=""> Seleccione </option>
-                      </select>
-                  </select>
+                  <input type="text" readonly name="district_id" value="{{$employee->district_id}}">
                 </div>
               </div>
               
@@ -184,15 +185,32 @@
               <div class="col-sm-6">
                 <!-- text input -->
                 <div class="form-group">
-                  <label>Curriculum(pdf)</label>
-                  <input accept=".pdf,.docx" name="curriculum" type="file" id="cv" class="input-group-text btn-block"  name="curriculum">
+                  @if($employee->curriculum == 'personal-sin-cv.pdf')
+                    <label>No tiene CV (.pdf)</label>
+                    <input accept=".pdf" name="curriculum" type="file" id="cv" class="input-group-text btn-block"  name="curriculum">
+                  @else
+                    <label>Actualizar CV (.pdf)</label>
+                    <a target="_blank" href="{{asset('images/curriculums/'.$employee->curriculum)}}" class="btn btn-outline-secondary btn-block" type="button">
+                      <i class="far fa-file-pdf"></i>&nbsp; Ver CV
+                    </a>
+                    <input accept=".pdf" name="curriculum" type="file" id="cv" class="input-group-text btn-block" src="{{$employee->curriculum}}">
+                  @endif
                 </div>
               </div>
               <div class="col-sm-6">
                 <!-- text input -->
                 <div class="form-group">
-                  <label>Antecedentes Criminales(pdf)</label>
-                  <input accept=".pdf,.docx" name="criminal_record" type="file" id="ap" class="input-group-text btn-block"  name="criminal_record">
+                  
+                  @if($employee->criminal_record == 'personal-sin-certificado-de-antecedentes-penales.pdf')
+                    <label>No se subio sus antecedentes(pdf)</label>
+                    <input accept=".pdf,.docx" name="criminal_record" type="file" id="ap" class="input-group-text btn-block"  name="criminal_record">
+                  @else
+                    <label>Actualizar sus antecedentes (pdf)</label>
+                    <a target="_blank" href="{{asset('images/criminal-record/'.$employee->criminal_record)}}" class="btn btn-outline-secondary btn-block" type="button">
+                      <i class="far fa-file-pdf"></i>&nbsp; Ver Antecedentes
+                    </a>
+                    <input accept=".pdf" name="criminal_record" type="file" class="input-group-text btn-block" src="{{$employee->criminal_record}}">
+                  @endif
                 </div>
               </div>
               <div class="col-sm-3">
@@ -200,13 +218,21 @@
               <div class="col-sm-6">
                 <div class="form-group ">
                   <label>Fotografía del personal(jpg,png,jpeg.) </label>
-
-                  <input accept="image/*" name="photo" type="file" id="imgInp" class="input-group-text btn-block imgNew" >
-                  <button id="btnDelete" type="button" class="btn float-right bg-gradient-danger btn-xs" data-toggle="tooltip" data-placement="right" title="Eliminar imagen subida"><i class="fas fa-power-off"></i></button>
-                  <br>
-                  <div class="control-image">
-                    <img id="blah" src="{{asset('vendor/adminlte/dist/img/employee.png')}}" width="120px" height="150px" style="display:block;margin:auto;" alt="Tu imagen" class="img-fluid" />
-                  </div>
+                    @if($employee->photo == "employee.png")
+                      <input accept="image/*" name="photo" type="file" id="imgInp" class="input-group-text btn-block imgNew" >
+                      <button id="btnDelete" type="button" class="btn float-right bg-gradient-danger btn-xs" data-toggle="tooltip" data-placement="right" title="Eliminar imagen subida"><i class="fas fa-power-off"></i></button>
+                      <br>
+                      <div class="control-image">
+                      <img id="blah" src="{{asset('vendor/adminlte/dist/img/employee.png')}}" width="140px" height="160px" style="display:block;margin:auto;" alt="Tu imagen" class="img-fluid" />
+                      </div>
+                    @else
+                      <input src="{{$employee->photo}}" accept="image/*" name="photo" type="file" id="imgInp" class="input-group-text btn-block imgNew" >
+                      <button id="btnDelete" type="button" class="btn float-right bg-gradient-danger btn-xs" data-toggle="tooltip" data-placement="right" title="Eliminar imagen subida"><i class="fas fa-power-off"></i></button>
+                      <br>
+                      <div class="control-image">
+                        <img id="blah" src="{{asset('images/employees/'.$employee->photo)}}" width="140px" height="160px" style="display:block;margin:auto;" alt="Tu imagen" class="img-fluid"/>
+                      </div>
+                    @endif
                 </div>
               </div>
               <div class="col-sm-3">
@@ -214,10 +240,10 @@
               <div class="col-sm-3">
               </div>
               <div class="col-sm-3">
-                <button type="submit" class="btn btn-success btn-block">Registrar</button>
+                <button type="submit" class="btn btn-secondary btn-block">Modificar</button>
               </div>
               <div class="col-sm-3">
-                <button type="button" class="btn btn-danger btn-block">Declinar</button>
+                <a type="button" class="btn btn-danger btn-block" href="{{route('employee.show')}}">Atras</a>
               </div>
               <div class="col-sm-3">
               </div>
@@ -248,55 +274,16 @@
         imgNew.value = "";
       });
     });
-    //--------------------------------------------------
-    //Module department - province -district
-    $('#department').on('change',function(){
-        var department_id = $(this).val();
-        //console.log(departamento_id)
-        if(($.trim('department_id') != '') && (department_id != "")){
-            $.get('provinces',{department_id:department_id},function(provinces){
-                $('#province').empty();
-                $('#province').append("<option value=''>Seleccionar</option>");
-                $('#district').empty();
-                $('#district').append("<option value=''>Seleccionar</option>");
-                $.each(provinces,function(index, value){
-                    $('#province').append("<option value='"+ index +"'>"+ value +"</option>");
-                });
-            });
-        }
-        else{
-            $('#province').empty();
-            $('#province').append("<option value=''>Seleccionar</option>");
-            $('#district').empty();
-            $('#district').append("<option value=''>Seleccionar</option>");
-        }
-    });
-
-    $('#province').on('change',function(){
-        var province_id = $(this).val();
-        if($.trim(('province_id') != '') && (province_id != "")){
-            $.get('districts',{province_id:province_id},function(districts){
-                $('#district').empty();
-                $('#district').append("<option value=''>Seleccionar</option>");
-                $.each(districts,function(index, value){
-                    $('#district').append("<option value='"+ index +"'>"+ value +"</option>");
-                });
-            });
-        }
-        else{
-            $('#district').empty();
-            $('#district').append("<option value=''>Seleccionar</option>");
-        }
-    });
+    
     //Modulo para guardar un reglamo
-    $formCreate = $('#formCreate');
-    $formCreate.on('submit', sendData);
+    $formEdit = $('#formEdit');
+    $formEdit.on('submit', editData);
   });
-  var $formCreate;
+  var $formEdit;
 
-        function sendData() {
+        function editData() {
         event.preventDefault();
-        var createUrl = $formCreate.data('url');
+        var createUrl = $formEdit.data('url');
         $.ajax({
             url: createUrl,
             method: 'POST',
@@ -329,11 +316,11 @@
                 } else {
                   Swal.fire(
                     '¡Todo salio correctamente!',
-                    'Nuevo personal registrado con éxito.',
+                    'El personal ha sido modificado con éxito.',
                     'success'
                     )
                     setTimeout( function () {
-                        url = "{{route('employee.show')}}";
+                        url = "{{route('employee.see', $employee->id)}}";
                         $(location).attr('href',url);
                     }, 1500 )
                 }
@@ -353,7 +340,6 @@ function readImage (input) {
       var reader = new FileReader();
       reader.onload = function (e) {
           $('#blah').attr('src', e.target.result); // Renderizamos la imagen
-
       }
       reader.readAsDataURL(input.files[0]);
     }
