@@ -4,32 +4,25 @@
 @section('css')
 
 @endsection
-@section('title', 'Lista de personal activo')
-<!--para traer plugins de adminite section('plugins.Sweetalert2',true) ya activamos el plugin no necesitamos invocalarlo-->
 
+@section('title', 'Personal dados de baja')
 @section('content')
-
-<div class="card card-info">
+<div class="card card-danger">
     <div class="card-header">
-      <h2 class="card-title" style="font-weight: bold;"><i class="fas fa-address-book"></i> LISTA DE PERSONAL REGISTRADO</h2>
+      <h2 class="card-title" style="font-weight: bold;"><i class="fas fa-address-book"></i> LISTA DE PERSONAL DADOS DE BAJA</h2>
     </div>
     <!-- /.card-header -->
     <div class="card-body">
         
       <div class="card-body table-striped table-in-card">
 <table class="table table-bordered" id="tableNormative">
-  <a class="btn btn-success btn-sm" href="{{route('employee.index')}}" type="button">
-          <i class="fas fa-user-plus"></i> Registar nuevo personal
-        </a>
 <thead class="thead-dark">
     <tr style="font-size: .8em; text-align:center">                            
         <th scope="col">Código</th>
         <th scope="col">Nombres y Apellidos</th> 
         <th scope="col">DNI</th>
         <th scope="col"><i class="fas fa-phone-alt"></i> Teléfono</th>               
-        <th scope="col"> Agencia</th>
-        <th scope="col"> Familia</th>
-        <th scope="col">Fotografía</th>
+        <th scope="col"> Correo</th>
         <th scope="col">Acciones</th>
     </tr>
 </thead>
@@ -50,39 +43,11 @@
             {{$employee->phone}}
           </td>
           <td style="font-size: 1.3em;font-weight: bold;">
-            {{$employee->agency->agency_name}}
-          </td>
-          <td style="font-size: 1.3em;font-weight: bold;">
-            @if(($employee->family_burden) == 0)
-              <a class="btn btn-warning btn-xs disabled">
-                NO <i class="fas fa-user-lock"></i> 
-              </a>
-            @else
-              <a href="{{route('employee.relative.index', $employee->id)}}" class="btn btn-warning btn-xs ">
-                SI <i class="fas fa-user-plus"></i>
-              </a>
-            @endif
+            {{$employee->email}}
           </td>
           <td>
-              @if(($employee->photo) == 'employee.png')
-              <a href="{{ asset('employee.png') }}" data-toggle="lightbox" class="btn btn-outline-secondary btn-block btn-xs">
-                <i class="far fa-image"></i>
-              </a>
-              @else
-                <a href="{{asset('images/employees/'.$employee->photo)}}" data-toggle="lightbox" class="btn btn-outline-secondary btn-block btn-xs">
-                  <i class="far fa-image"></i>
-                </a>
-              @endif
-          </td>
-          <td>
-            <a class="btn btn-info btn-xs" href="{{route('employee.see', $employee->id)}}" type="button">
-              <i class="far fa-eye"></i>
-            </a>
-            <a class="btn btn-secondary btn-xs" href="{{route('employee.edit', $employee->id)}}" type="button">
-              <i class="fas fa-user-edit"></i>
-            </a>
-            <a class="btn btn-danger btn-xs" type="button" data-delete="{{$employee->id}}" data-dni="{{$employee->dni}}" data-name="{{$employee->name}}" data-father="{{$employee->father_name}}" data-mother="{{$employee->mother_name}}" data-phone="{{$employee->phone}}" data-agency="{{$employee->agency->agency_name}}">
-              <i class="fas fa-trash-alt"></i> 
+            <a class="btn btn-success btn-xs" type="button" data-restore="{{$employee->id}}" data-dni="{{$employee->dni}}" data-name="{{$employee->name}}" data-father="{{$employee->father_name}}" data-mother="{{$employee->mother_name}}" data-phone="{{$employee->phone}}" data-email="{{$employee->email}}">
+              <i class="fas fa-trash-restore-alt"></i> Restaurar
             </a>
           </td>
       </tr>   
@@ -94,20 +59,19 @@
     <!-- /.card-body -->
   </div>
 <br>
-    
 
 <!--soft employee-->
 
-<div id="modalDelete" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+<div id="modalRestore" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div class="card card-danger">
+      <div class="card card-success">
         <div class="card-header">
-          <h3 class="card-title">Desea dar de baja a empleado:</h3>
+          <h3 class="card-title">Restaurar Personal</h3>
         </div>
         <!-- /.card-header -->
         <!-- form start -->
-        <form data-url="{{ route('employee.destroy') }}" id="formDelete" method="POST">
+        <form data-url="{{ route('employee.restore') }}" id="formRestore" method="POST">
           @csrf
           <div class="card-body">
             <div  class="row">
@@ -132,8 +96,8 @@
                 <input readonly type="number" class="form-control" id="dni">
               </div>
               <div class="col-sm-4">
-                <label >Agencia donde labora</label>
-                <input readonly type="text" class="form-control" id="agency">
+                <label >Email</label>
+                <input readonly type="text" class="form-control" id="email">
               </div>
               <div class="col-sm-4">
                 <label >Telefono/Celular</label>
@@ -145,7 +109,7 @@
 
           <div class="card-footer">
 
-            <button type="submit" class="btn btn-danger ">Eliminar</button>
+            <button type="submit" class="btn btn-success ">Restaurar</button>
             <button type="button" class="btn btn-default float-right" data-dismiss="modal">Cancelar</button>
           </div>
         </form>
@@ -158,7 +122,6 @@
 @stop
 
 @section('js')
-
 <script>
 $(document).ready(function () {
 
@@ -185,45 +148,42 @@ $(document).ready(function () {
     },
     });
 
-    //Soft delete employee
-    $formDelete = $('#formDelete');
-    $formDelete.on('submit', deleteEmployee);
-    $modalDelete = $('#modalDelete');
-    $("[data-delete]" ).on('click', openModalDelete);
+    //Restore employee
+    $formRestore = $('#formRestore');
+    $formRestore.on('submit', restoreEmployee);
+    $modalRestore = $('#modalRestore');
+    $("[data-restore]" ).on('click', openModalRestore);
 
 });
 
-var $modalDelete;
-var $formDelete;
-
-
 //---------------------Modules Delete Relatives-------------------------
 
-function openModalDelete() {
-    var employe_id = $(this).data('delete');
+function openModalRestore() {
+    var employe_id = $(this).data('restore');
     var name = $(this).data('name');
     var father = $(this).data('father');
     var mother = $(this).data('mother');
     var dni = $(this).data('dni');
     var phone = $(this).data('phone');
-    var agency = $(this).data('agency');
+    var email = $(this).data('email');
 
-    $modalDelete.find('[id=employe_id]').val(employe_id);
-    $modalDelete.find('[id=name]').val(name);
-    $modalDelete.find('[id=father]').val(father);
-    $modalDelete.find('[id=mother]').val(mother);
-    $modalDelete.find('[id=dni]').val(dni);
-    $modalDelete.find('[id=phone]').val(phone);
-    $modalDelete.find('[id=agency]').val(agency);
+    $modalRestore.find('[id=employe_id]').val(employe_id);
+    $modalRestore.find('[id=name]').val(name);
+    $modalRestore.find('[id=father]').val(father);
+    $modalRestore.find('[id=mother]').val(mother);
+    $modalRestore.find('[id=dni]').val(dni);
+    $modalRestore.find('[id=phone]').val(phone);
+    $modalRestore.find('[id=email]').val(email);
 
-    $modalDelete.modal('show');
+    $modalRestore.modal('show');
 }
-function deleteEmployee() {
+
+function restoreEmployee() {
     event.preventDefault();
     // Obtener la URL
-    var editUrl = $formDelete.data('url');
+    var restoreUrl = $formRestore.data('url');
     $.ajax({
-        url: editUrl,
+        url: restoreUrl,
         method: 'POST',
         data: new FormData(this),
         processData:false,
@@ -254,7 +214,7 @@ function deleteEmployee() {
           } else {
             Swal.fire(
               '¡Todo salio correctamente!',
-              'El empleado ha sido dado de baja con éxito.',
+              'El empleado ha sido restaurado con éxito.',
               'success'
               )
               setTimeout( function () {
@@ -264,14 +224,7 @@ function deleteEmployee() {
       },
     });
 }
-//-------------------------------------------------------------------------
-
-$(document).on('click', '[data-toggle="lightbox"]', function(event) {
-            event.preventDefault();
-            $(this).ekkoLightbox();
-});
+//----------------------------------------------------------------
 
 </script>
-
-
 @endsection

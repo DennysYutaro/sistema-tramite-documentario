@@ -276,8 +276,12 @@ return [
                     'route'  => 'employee.index',
                 ],
                 [
-                    'text' => 'Listar Personal',
+                    'text' => 'Personal activo',
                     'route'  => 'employee.show',
+                ],
+                [
+                    'text' => 'Personal dado baja',
+                    'route'  => 'employee.trashed',
                 ],
 
             ],

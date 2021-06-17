@@ -288,6 +288,11 @@ class EmployeeController extends Controller
             $employee->province_id = $request->get('province_id');
             $employee->district_id = $request->get('district_id');
 
+            //Si cambia carga familiar a que no tiene,elimino todos sus familiares
+            if($employee->family_burden == 0){
+                Relative::where('employee_id', $employee->id)->delete();
+            }
+
             // TODO: Tratamiento de un archivo de forma tradicional
             if (!$request->file('photo')) {
                 if ($employee->photo == 'employee.png' || $employee->photo == null) {
@@ -332,51 +337,59 @@ class EmployeeController extends Controller
         return response()->json($validator->messages(), 200);
     }
 
-    public function provinces(Request $request)
+    // --------------------------- use softdelete ---------------------------
+    public function destroy(Request $request)
     {
-        if(isset($request->texto)){
-            $provinces = Province::whereDepartment_id($request->texto)->get();
-            return response()->json(
-                [
-                    'lista' => $provinces,
-                    'success' =>true
-                ]
-            );
-        }else{
-            return response()->json(
-                [
-                    'success' =>false
-                ]
-            );
+        $rules = [
+            'id' => 'required|exists:employees,id',
+        ];
+
+        $messages = [
+            'id.required' => 'No se ha recibido el identificador del empleado.',
+            'id.exists' => 'El empleado no existe en la base de datos.',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ( !$validator->fails() )
+        {
+            $employee = Employee::find($request->get('id'));
+            $employee->delete();
         }
+
+        return response()->json($validator->messages(), 200);
     }
 
-    public function districts(Request $request)
+    public function trashed()
     {
-        //
-        if(isset($request->texto)){
-            $districts = District::whereProvince_id($request->texto)->get();
-            return response()->json(
-                [
-                    'lista' => $districts,
-                    'success' =>true
-                ]
-            );
-        }else{
-            return response()->json(
-                [
-                    'success' =>false
-                ]
-            );
+        $employees = Employee::onlyTrashed()->get();
+        return view('employee.restore', compact('employees'));
+    }
+
+    public function restore( Request $request )
+    {
+        $rules = [
+            'id' => 'required|exists:employees,id',
+        ];
+
+        $messages = [
+            'id.required' => 'No se ha recibido el identificador del empleado.',
+            'id.exists' => 'El empleado no existe en la base de datos.',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ( !$validator->fails() )
+        {
+            $employee = Employee::onlyTrashed()->where('id', $request->get('id'))
+                            ->restore();
         }
+
+        return response()->json($validator->messages(), 200);
     }
 
-    
+    //-----------------------------------------------------------------
 
-    public function destroy(Employee $employee)
-    {
-        //
-    }
     public function getProvinces(Request $request)
     {
         //Nos retornara las provincias que tengan departamento_id igual al request

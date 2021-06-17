@@ -38,6 +38,15 @@ Route::middleware('auth')->group(function (){
         //Update: guarda la info
         Route::post('employee/update/{id}', 'EmployeeController@update')->name('employee.update')
             ->middleware('permission:update_employee');
+        //Destroy: da de baja a un empleado
+        Route::post('employee/destroy', 'EmployeeController@destroy')->name('employee.destroy')
+            ->middleware('permission:destroy_employee');
+        //trashed: devuelve los empleados dados de baja
+        Route::get('empleados/dados-de-baja', 'EmployeeController@trashed')->name('employee.trashed')
+            ->middleware('permission:restore_employee');
+        //restore: restaura un empleado
+        Route::post('employee/restore', 'EmployeeController@restore')->name('employee.restore')
+            ->middleware('permission:restore_employee');
 
         //Muestra vista para crud para agregar familar a empleado
         Route::get('personal/familar/crear/{id}', 'RelativeController@index')->name('employee.relative.index')
@@ -52,14 +61,8 @@ Route::middleware('auth')->group(function (){
             ->middleware('permission:update_employee');
 
         
-        //Destroy: da de baja a un empleado
-        Route::post('employee/destroy', 'EmployeeController@destroy')->name('employee.destroy')
-            ->middleware('permission:destroy_employee');
-        //trashed: devuelve los empleados dados de baja
-        Route::get('empleados/bajas', 'EmployeeController@trashed')->name('employee.trashed')
-            ->middleware('permission:restore_employee');
-        //restore: restaura un empleado
-        Route::get('employee/restore', 'EmployeeController@restore')->name('employee.restore')
-            ->middleware('permission:restore_employee');
+        
+        
+        
     });
 });

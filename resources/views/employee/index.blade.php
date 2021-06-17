@@ -185,14 +185,14 @@
                 <!-- text input -->
                 <div class="form-group">
                   <label>Curriculum(pdf)</label>
-                  <input accept=".pdf,.docx" name="curriculum" type="file" id="cv" class="input-group-text btn-block"  name="curriculum">
+                  <input accept=".pdf" name="curriculum" type="file" id="cv" class="input-group-text btn-block"  name="curriculum">
                 </div>
               </div>
               <div class="col-sm-6">
                 <!-- text input -->
                 <div class="form-group">
                   <label>Antecedentes Criminales(pdf)</label>
-                  <input accept=".pdf,.docx" name="criminal_record" type="file" id="ap" class="input-group-text btn-block"  name="criminal_record">
+                  <input accept=".pdf" name="criminal_record" type="file" id="ap" class="input-group-text btn-block"  name="criminal_record">
                 </div>
               </div>
               <div class="col-sm-3">
@@ -335,7 +335,7 @@
                     setTimeout( function () {
                         url = "{{route('employee.show')}}";
                         $(location).attr('href',url);
-                    }, 1500 )
+                    }, 1200 )
                 }
             }
         });
