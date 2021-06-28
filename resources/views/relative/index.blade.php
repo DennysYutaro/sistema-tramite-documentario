@@ -4,7 +4,6 @@
 @section('plugins.Ekko-lightbox',true)
 @section('title', 'Empleado')
 @section('plugins.Datatables',true)
-<!--para traer plugins de adminite section('plugins.Sweetalert2',true) ya activamos el plugin no necesitamos invocalarlo-->
 
 @section('content')
 <h3 style="text-align: center;font-weight: bold;">CARGA FAMILIAR DE: {{$employee->name}} {{$employee->father_name}} {{$employee->mother_name}}</h3>
@@ -35,6 +34,7 @@
                   <th scope="col">#</th>
                   <th scope="col">Nombres y Apellidos</th> 
                   <th scope="col">DNI</th>
+                  <th scope="col">Documento</th>
                   <th scope="col">Parentesco</th>
                   <th scope="col">Edad</th>               
                   <th scope="col"> Fecha de nacimiento</th>
@@ -57,6 +57,15 @@
                   {{$relative-> dni}}
                 </td>
                 <td style="font-size: 1.5em;font-weight: bold;">
+                  @if ($relative->document == 'familiar-sin-documento.pdf')
+                      <label>Sin documento de DNI</label>
+                  @else
+                      <a target="_blank" href="{{asset('images/relatives/'.$relative->document)}}" class="btn btn-outline-secondary btn-block btn-xs" type="button">
+                        <i class="far fa-file-pdf"></i>&nbsp; Ver DNI
+                      </a>
+                  @endif
+                </td>
+                <td style="font-size: 1.5em;font-weight: bold;">
                   {{$relative-> relationship}}
                 </td>
                 <td style="font-size: 1.5em;font-weight: bold; background: #f2bdcf;">
@@ -66,7 +75,7 @@
                   {{$relative-> birth_date}}
                 </td>
                 <td>
-                  <a class="btn btn-warning btn-xs" data-edit="{{$relative->id}}" data-employee="{{$employee->id}}" data-name="{{$relative->name}}" data-father="{{$relative-> father_name}}" data-mother="{{$relative-> mother_name}}" data-dni="{{$relative-> dni}}" data-relationship="{{$relative->relationship}}" data-birth="{{$relative->birth_date}}">
+                  <a class="btn btn-warning btn-xs" data-edit="{{$relative->id}}" data-employee="{{$employee->id}}" data-name="{{$relative->name}}" data-father="{{$relative-> father_name}}" data-mother="{{$relative-> mother_name}}" data-dni="{{$relative-> dni}}" data-relationship="{{$relative->relationship}}" data-birth="{{$relative->birth_date}}" data-document="{{$relative->document}}">
                     <i class="fas fa-edit"></i>
                   </a>
                   <a class="btn btn-danger btn-xs" data-delete="{{$relative->id}}" data-name="{{$relative->name}}" data-father="{{$relative-> father_name}}" data-mother="{{$relative-> mother_name}}" data-dni="{{$relative-> dni}}" data-relationship="{{$relative->relationship}}" data-birth="{{$relative->birth_date}}">
@@ -103,15 +112,15 @@
               </div>
               <div class="col-sm-4">
                 <label>Nombre</label>
-                <input type="text" class="form-control" name="name" id="a" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()">
+                <input type="text" class="form-control" name="name" id="name">
               </div>
               <div class="col-sm-4">
                 <label >Apellido paterno</label>
-                <input type="text" class="form-control" name="father_name" id="b" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()">
+                <input type="text" class="form-control" name="father_name">
               </div>
               <div class="col-sm-4">
                 <label>Apellido materno</label>
-                <input type="text" class="form-control" name="mother_name" id="c" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()">
+                <input type="text" class="form-control" name="mother_name">
               </div>
               <div class="col-sm-4">
                 <label >DNI</label>
@@ -133,6 +142,14 @@
                   <input type="date" class="form-control" name="birth_date" data-inputmask-alias="datetime" data-inputmask-inputformat="mm/dd/yyyy" data-mask="" inputmode="numeric">
                   </div>
                 </div>
+
+              <div class="col-sm-12">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Documento de DNI(pdf)</label>
+                  <input accept=".pdf" name="document" type="file" class="input-group-text btn-block">
+                </div>
+              </div>
             </div>
           </div>
           <!-- /.card-body -->
@@ -172,15 +189,15 @@
               </div>
               <div class="col-sm-4">
                 <label>Nombre</label>
-                <input type="text" class="form-control" name="name" id="name" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()">
+                <input type="text" class="form-control" name="name" id="name" >
               </div>
               <div class="col-sm-4">
                 <label >Apellido paterno</label>
-                <input type="text" class="form-control" name="father_name" id="father" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()">
+                <input type="text" class="form-control" name="father_name" id="father" >
               </div>
               <div class="col-sm-4">
                 <label>Apellido materno</label>
-                <input type="text" class="form-control" name="mother_name" id="mother" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()">
+                <input type="text" class="form-control" name="mother_name" id="mother">
               </div>
               <div class="col-sm-4">
                 <label >DNI</label>
@@ -189,7 +206,7 @@
               <div class="col-sm-4">
                 <label>Relación</label>
                 <select name="relationship" class="form-control" id="relationship">
-                  <option value="" selected>Seleccione...</option>
+                  <option value="" >Seleccione...</option>
                   <option value="ESPOSO(A)">ESPOSO(A)</option>
                   <option value="HIJO(A)">HIJO(A)</option>
                   <option value="HIJASTRO(A)">HIJASTRO(A)</option>
@@ -202,6 +219,13 @@
                   <input type="date" class="form-control" name="birth_date" id="birth" data-inputmask-alias="datetime" data-inputmask-inputformat="mm/dd/yyyy" data-mask="" inputmode="numeric">
                   </div>
                 </div>
+              <div class="col-sm-6">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Documento de DNI(pdf)</label>
+                  <input accept=".pdf" name="document" type="file" id="document" class="input-group-text btn-block">
+                </div>
+              </div>
             </div>
           </div>
           <!-- /.card-body -->
@@ -377,6 +401,7 @@ function openModalEdit() {
     var dni = $(this).data('dni');
     var relationship = $(this).data('relationship');
     var birth = $(this).data('birth');
+    var document = $(this).data('document');
 
     $modalEdit.find('[id=relative_id]').val(relative_id);
     $modalEdit.find('[id=employee_id]').val(employee_id);
@@ -386,6 +411,7 @@ function openModalEdit() {
     $modalEdit.find('[id=dni]').val(dni);
     $modalEdit.find('[id=relationship]').val(relationship);
     $modalEdit.find('[id=birth]').val(birth);
+    $modalEdit.find('[id=document]').attr('src', document);
 
     $modalEdit.modal('show');
 }

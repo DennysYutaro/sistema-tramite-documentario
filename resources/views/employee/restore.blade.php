@@ -7,7 +7,7 @@
 
 @section('title', 'Personal dados de baja')
 @section('content')
-<div class="card card-danger">
+<div class="card card-danger disabled ">
     <div class="card-header">
       <h2 class="card-title" style="font-weight: bold;"><i class="fas fa-address-book"></i> LISTA DE PERSONAL DADOS DE BAJA</h2>
     </div>

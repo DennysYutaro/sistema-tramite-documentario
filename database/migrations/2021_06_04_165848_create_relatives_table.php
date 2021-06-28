@@ -20,7 +20,8 @@ class CreateRelativesTable extends Migration
             $table->string('dni');
             $table->string('relationship');
             $table->date('birth_date');
-            
+            $table->string('document')->nullable();
+
             $table->timestamps();
         });
     }

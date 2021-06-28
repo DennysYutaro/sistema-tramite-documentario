@@ -48,11 +48,9 @@
 @section('js')
 <script>
 	Swal.fire(
-	  'Todo salio correctamente!',
+	  'Bienvenido a RRHH Qorilazo!',
 	  'Dale click para ingresar!',
 	  'success'
 	)
-    toastr.info('Are you the 6 fingered man?')
-    toastr.success('Success messages');
 </script>
 @stop

@@ -3,83 +3,69 @@
 namespace App\Http\Controllers;
 
 use App\Profession;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ProfessionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        //
+        $nro = 0;
+        $professions = Profession::all();
+        return view('profession.index',compact('professions','nro'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'profession_name' => 'required|string|unique:professions,profession_name',
+        ];
+
+        $messages = [
+            'profession_name.required' => 'El nombre de la profesión es requerido.',
+            'profession_name.string' => 'El nombre de la profesión debe contener caracteres válidos.',
+            'profession_name.unique' => 'Esta profesión ya existe en la base de datos.'
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ( !$validator->fails() )
+        {
+            $profession = Profession::create([
+                'profession_name' => $request->get('profession_name'),
+                'description' => $request->get('description')
+            ]);
+        }
+        return response()->json($validator->messages(), 200);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Profession  $profession
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Profession $profession)
+    public function update(Request $request)
     {
-        //
+        $rules = [
+            'id' => 'required|exists:professions,id',
+            'profession_name' => 'required|string'
+        ];
+
+        $messages = [
+            'id.required' => 'El id de la profesión es requerido.',
+            'id.exists' => 'El id de la profesión es no existe en la base de datos.',
+            'profession_name.required' => 'El nombre de la profesión es requerido.',
+            'profession_name.string' => 'El nombre de la profesión debe contener caracteres válidos.'
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ( !$validator->fails() )
+        {
+            $profession = Profession::find($request->get('id'));
+
+            $profession->profession_name = $request->get('profession_name');
+            $profession->description = $request->get('description');
+            
+            $profession->save();
+        }
+        return response()->json($validator->messages(), 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Profession  $profession
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Profession $profession)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Profession  $profession
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Profession $profession)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Profession  $profession
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Profession $profession)
-    {
-        //
-    }
 }

@@ -23,7 +23,6 @@ class CreateEmployeesTable extends Migration
             $table->string('email');
             $table->string('phone');
             $table->boolean('family_burden');
-            $table->string('pension');
             $table->boolean('license');
 
             $table->unsignedBigInteger('agency_id');

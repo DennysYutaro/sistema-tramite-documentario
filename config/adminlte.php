@@ -253,7 +253,7 @@ return [
             'can'  => 'manage-blog',
         ],
         [
-            'text'        => 'Comunicados Y novedades',
+            'text'        => 'Comunicados y novedades',
             'route'         => 'home',
             'icon'        => 'fas fa-envelope-open-text',
             //'label'       => 'Nuevo',
@@ -292,33 +292,63 @@ return [
             'submenu' => [
                 [
                     'text' => 'Registrar Contrato',
-                    'url'  => '#',
+                    'route'  => 'contract.index',
                 ],
                 [
-                    'text' => 'Listar Contratos',
+                    'text' => 'Contratos Vigentes',
+                    'route'  => 'contract.current',
+                ],
+                [
+                    'text' => 'En periodo de prueba',
+                    'route'  => 'contract.proof',
+                ],
+                [
+                    'text' => 'Historial de contratos',
                     'url'  => '#',
                 ],
             ],
         ],
-        ['header' => 'MANTENEDOR PROFESIONES'],
         [
-            'text' => 'Profesión',
-            'icon' => 'fas fa-suitcase',
-            'submenu' => [
-                [
-                    'text' => 'Registrar Profesión',
-                    'url'  => '#',
-                ],
-                [
-                    'text' => 'Listar Profesiones',
-                    'url'  => '#',
-                ],
-                [
-                    'text' => 'Registrar Profesión',
-                    'url'  => '#',
-                ],
-
-            ],
+            'text'        => 'Profesiones',
+            'route'         => 'profession.index',
+            'icon'        => 'fas fa-user-tie',
+            //'label'       => 'Nuevo',
+            //'label_color' => 'primary',
+        ],
+        [
+            'text'        => 'Areas',
+            'route'         => 'area.index',
+            'icon'        => 'fas fa-street-view',
+            //'label'       => 'Nuevo',
+            //'label_color' => 'primary',
+        ],
+        [
+            'text'        => 'Conceptos fijos',
+            'route'         => 'concept.index',
+            'icon'        => 'far fa-address-card',
+            //'label'       => 'Nuevo',
+            //'label_color' => 'primary',
+        ],
+        [
+            'text'        => 'Agencias',
+            'url'         => '#',
+            'icon'        => 'fas fa-university',
+            //'label'       => 'Nuevo',
+            //'label_color' => 'primary',
+        ],
+        [
+            'text'        => 'Seguros',
+            'url'         => '#',
+            'icon'        => 'fas fa-ambulance',
+            //'label'       => 'Nuevo',
+            //'label_color' => 'primary',
+        ],
+        [
+            'text'        => 'Cargos',
+            'url'         => '#',
+            'icon'        => 'fas fa-briefcase',
+            //'label'       => 'Nuevo',
+            //'label_color' => 'primary',
         ],
         ['header' => 'labels'],
         [

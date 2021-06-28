@@ -11,6 +11,8 @@ use App\Agency;
 use App\Profession;
 use App\Relative;
 use Carbon\Carbon;
+use App\ContractState;
+use App\Contract;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -40,7 +42,6 @@ class EmployeeController extends Controller
             'email' => 'required|string|min:4|max:60',
             'phone' => 'required|string|min:6|max:20',
             'family_burden' => 'required',
-            'pension' => 'required|string|min:2|max:30',
             'license' => 'required',
             'agency_id' => 'required',
             'address' => 'required|string|min:2|max:60',
@@ -80,10 +81,6 @@ class EmployeeController extends Controller
             'phone.min' => 'La longitud del telefono/celular del personal es muy corta.',
             'phone.max' => 'La longitud del telefono/celular del personal es muy larga.',
             'family_burden.required' => 'El carga familiar es obligatorio.',
-            'pension.required' => 'El fondo de pensión es obligatorio.',
-            'pension.string' => 'El fondo de pensión debe contener caracteres válidos.',
-            'pension.min' => 'La longitud del fondo de pensión es muy corta.',
-            'pension.max' => 'La longitud del fondo de pensión es muy larga.',
             'license.required' => 'La licencia de conducir es obligatorio.',
             'agency_id.required' => 'La agencia es obligatorio.',
             'address.required' => 'El dirección del personal es obligatorio.',
@@ -115,7 +112,6 @@ class EmployeeController extends Controller
                 'email' => $request->get('email'),
                 'phone' => $request->get('phone'),
                 'family_burden' => $request->get('family_burden'),
-                'pension' => $request->get('pension'),
                 'license' => $request->get('license'),
                 'agency_id' => $request->get('agency_id'),
                 'address' => $request->get('address'),
@@ -160,6 +156,12 @@ class EmployeeController extends Controller
                 $employee->criminal_record = $filename;
                 //$employee->save();
             }
+            $contractState = ContractState::create([
+                'start_contract' => '2000-01-01',
+                'trial_period' => '2000-01-02',
+                'end_contract' => '2000-01-03',
+                'employee_id' => $employee->id
+            ]);
             $employee->save();
         }
         return response()->json($validator->messages(), 200);
@@ -174,11 +176,13 @@ class EmployeeController extends Controller
     public function see($id)
     {
         $nro = 0;
+        $nro1 = 0;
         //ver datos de un empleado
         $employee = Employee::find($id);
         $relatives = Relative::where('employee_id', $id)->get();
+        $contracts = Contract::where('employee_id', $id)->get();
         $edad = Carbon::parse($employee->birth_date)->age;
-        return view('employee.see', compact('employee','relatives','edad','nro'));
+        return view('employee.see', compact('employee','relatives','edad','nro','nro1' ,'contracts'));
     }
 
     public function edit($id)
@@ -204,7 +208,6 @@ class EmployeeController extends Controller
             'email' => 'required|string|min:4|max:60',
             'phone' => 'required|string|min:6|max:20',
             'family_burden' => 'required',
-            'pension' => 'required|string|min:2|max:30',
             'license' => 'required',
             'agency_id' => 'required',
             'address' => 'required|string|min:2|max:60',
@@ -243,10 +246,6 @@ class EmployeeController extends Controller
             'phone.min' => 'La longitud del telefono/celular del personal es muy corta.',
             'phone.max' => 'La longitud del telefono/celular del personal es muy larga.',
             'family_burden.required' => 'El carga familiar es obligatorio.',
-            'pension.required' => 'El fondo de pensión es obligatorio.',
-            'pension.string' => 'El fondo de pensión debe contener caracteres válidos.',
-            'pension.min' => 'La longitud del fondo de pensión es muy corta.',
-            'pension.max' => 'La longitud del fondo de pensión es muy larga.',
             'license.required' => 'La licencia de conducir es obligatorio.',
             'agency_id.required' => 'La agencia es obligatorio.',
             'address.required' => 'El dirección del personal es obligatorio.',
@@ -279,7 +278,6 @@ class EmployeeController extends Controller
             $employee->email = $request->get('email');
             $employee->phone = $request->get('phone');
             $employee->family_burden = $request->get('family_burden');
-            $employee->pension = $request->get('pension');
             $employee->license = $request->get('license');
             $employee->agency_id = $request->get('agency_id');
             $employee->address = $request->get('address');
@@ -353,8 +351,25 @@ class EmployeeController extends Controller
 
         if ( !$validator->fails() )
         {
+
+            $contractState = ContractState::find($request->get('id'));
+            
+            if (!empty($contractState->contract_id)) {
+                $contract = Contract::find($contractState->contract_id);
+
+                $contract->observation ="CONTRATO CANCELADO ANTES DE FINALIZAR FECHA ACORDADA" ;
+                $contract->save();
+            }
+            
+            $contractState->start_contract = '2000-01-01';
+            $contractState->trial_period = '2000-01-02';
+            $contractState->end_contract = '2000-01-03';
+            $contractState->contract_id = null;
+            $contractState->save();
+
             $employee = Employee::find($request->get('id'));
             $employee->delete();
+
         }
 
         return response()->json($validator->messages(), 200);

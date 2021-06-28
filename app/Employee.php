@@ -20,7 +20,6 @@ class Employee extends Model
             'email',
             'phone',
             'family_burden',
-            'pension',
             'license',
             'agency_id',
             'address',

@@ -32,7 +32,8 @@ class RelativeController extends Controller
             'mother_name' => 'required|string|min:2|max:40',
             'dni' => 'required|string|size:8',
             'relationship' => 'required',
-            'birth_date' => 'required'
+            'birth_date' => 'required',
+            'document' => 'mimes:pdf|max:2048'
         ];
 
         $messages = [
@@ -55,6 +56,8 @@ class RelativeController extends Controller
             'dni.size' => 'El DNI ingresado no es correcto, por favor VERIFIQUE.',
             'relationship.required' => 'El parentesco del pariente con el personal es obligatorio.',
             'birth_date.required' => 'La fecha de nacimiento del pariente es obligatorio.',
+            'document.max' => 'El documento de dni pesa demasiado,solo debe pesar 2MB max.',
+            'document.mimes' => 'El formato del documento de dni no es pdf.',
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -70,6 +73,18 @@ class RelativeController extends Controller
                 'relationship' => $request->get('relationship'),
                 'birth_date' => $request->get('birth_date')
             ]);
+            if (!$request->file('document')) {
+                $relative->document = 'familiar-sin-documento.pdf';
+                //$employee->save();
+            } else {
+                $path = public_path().'/images/relatives/';
+                $extension = $request->file('document')->getClientOriginalExtension();
+                $filename = $relative->id . '.' . $extension;
+                $request->file('document')->move($path, $filename);
+                $relative->document = $filename;
+                //$employee->save();
+            }
+            $relative->save();
         }
         return response()->json($validator->messages(), 200);
     }
@@ -85,7 +100,8 @@ class RelativeController extends Controller
             'mother_name' => 'required|string|min:2|max:40',
             'dni' => 'required|string|size:8',
             'relationship' => 'required',
-            'birth_date' => 'required'
+            'birth_date' => 'required',
+            'document' => 'mimes:pdf|max:2048'
         ];
 
         $messages = [
@@ -110,6 +126,8 @@ class RelativeController extends Controller
             'dni.size' => 'El DNI ingresado no es correcto, por favor VERIFIQUE.',
             'relationship.required' => 'El parentesco del pariente con el personal es obligatorio.',
             'birth_date.required' => 'La fecha de nacimiento del pariente es obligatorio.',
+            'document.max' => 'El documento de dni pesa demasiado,solo debe pesar 2MB max.',
+            'document.mimes' => 'El formato del documento de dni no es pdf.',
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -124,6 +142,19 @@ class RelativeController extends Controller
             $relative->dni = $request->get('dni');
             $relative->relationship = $request->get('relationship');
             $relative->birth_date = $request->get('birth_date');
+
+            if (!$request->file('document')) {
+                if ($relative->document == 'familiar-sin-documento.pdf' || $relative->document == null) {
+                    $relative->document = 'familiar-sin-documento.pdf';
+                }
+
+            } else {
+                $path = public_path().'/images/relatives/';
+                $extension = $request->file('document')->getClientOriginalExtension();
+                $filename = $relative->id . '.' . $extension;
+                $request->file('document')->move($path, $filename);
+                $relative->document = $filename;
+            }
 
             $relative->save();
         }

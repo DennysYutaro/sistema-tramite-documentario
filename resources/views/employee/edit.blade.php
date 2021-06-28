@@ -105,20 +105,6 @@
                 </div>
               </div>
               <div class="col-sm-4">
-                <!-- text input -->
-                <div class="form-group">
-                  <label>Pensión Familiar</label>
-                  <select name="pension" class="form-control">
-                    <option value="{{$employee->pension}}" selected>{{$employee->pension}}</option>
-                    <option value="Profuturo">Profuturo</option>
-                    <option value="AFP Integra">AFP Integra</option>
-                    <option value="Prima AFP">Prima AFP</option>
-                    <option value="AFP Habitat">AFP Habitat</option>
-                    <option value="ONP">ONP</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-sm-4">
                 <div class="form-group">
                   <label>Licencia de conducir</label>
                   <select name="license" class="form-control">
@@ -281,52 +267,52 @@
   });
   var $formEdit;
 
-        function editData() {
-        event.preventDefault();
-        var createUrl = $formEdit.data('url');
-        $.ajax({
-            url: createUrl,
-            method: 'POST',
-            data: new FormData(this),
-            processData:false,
-            contentType:false,
-            success: function (data) {
-                console.log(data);
-                if (data != "") {
-                    for ( var property in data )  {
-                        toastr["error"](data[property])
-                        toastr.options = {
-                          "closeButton": true,
-                          "debug": false,
-                          "newestOnTop": false,
-                          "progressBar": true,
-                          "positionClass": "toast-top-right",
-                          "preventDuplicates": false,
-                          "onclick": null,
-                          "showDuration": "300",
-                          "hideDuration": "1000",
-                          "timeOut": "5000",
-                          "extendedTimeOut": "1000",
-                          "showEasing": "swing",
-                          "hideEasing": "linear",
-                          "showMethod": "fadeIn",
-                          "hideMethod": "fadeOut"
-                        }
-                    }
-                } else {
-                  Swal.fire(
-                    '¡Todo salio correctamente!',
-                    'El personal ha sido modificado con éxito.',
-                    'success'
-                    )
-                    setTimeout( function () {
-                        url = "{{route('employee.see', $employee->id)}}";
-                        $(location).attr('href',url);
-                    }, 1500 )
-                }
-            }
-        });
-    }
+function editData() {
+  event.preventDefault();
+  var createUrl = $formEdit.data('url');
+  $.ajax({
+      url: createUrl,
+      method: 'POST',
+      data: new FormData(this),
+      processData:false,
+      contentType:false,
+      success: function (data) {
+          console.log(data);
+          if (data != "") {
+              for ( var property in data )  {
+                  toastr["error"](data[property])
+                  toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                  }
+              }
+          } else {
+            Swal.fire(
+              '¡Todo salio correctamente!',
+              'El personal ha sido modificado con éxito.',
+              'success'
+              )
+              setTimeout( function () {
+                  url = "{{route('employee.see', $employee->id)}}";
+                  $(location).attr('href',url);
+              }, 1500 )
+          }
+      }
+  });
+}
 </script>
 
 

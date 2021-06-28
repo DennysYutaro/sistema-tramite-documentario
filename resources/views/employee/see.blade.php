@@ -69,7 +69,7 @@
                 <div class="tab-content" id="custom-tabs-one-tabContent">
                   <div class="tab-pane fade active show" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
                      <div class="row">
-			              <div class="col-sm-6">
+			              <div class="col-sm-9">
 			                <!-- text input -->
 			                <div class="form-group">
 			                  <label>Correo electrónico</label>
@@ -120,13 +120,6 @@
 			                <div class="form-group">
 			                  <label>Profesión</label>
 			                  <input style="background-color: #fff;" type="text" class="form-control" readonly value="{{$employee->profession->profession_name}}">
-			                </div>
-			              </div>
-			              <div class="col-sm-3">
-			                <!-- text input -->
-			                <div class="form-group">
-			                  <label>Pensión Familiar</label>
-			                  <input style="background-color: #fff;" type="text" class="form-control" readonly value="{{$employee-> pension}}">
 			                </div>
 			              </div>
 			              <div class="col-sm-3">
@@ -207,7 +200,64 @@
 		              </div>
                   </div>
                   <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
-                     Mauris tincidunt mi at erat gravida, eget tristique urna bibendum. Mauris pharetra purus ut ligula tempor, et vulputate metus facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas sollicitudin, nisi a luctus interdum, nisl ligula placerat mi, quis posuere purus ligula eu lectus. Donec nunc tellus, elementum sit amet ultricies at, posuere nec nunc. Nunc euismod pellentesque diam.
+                     <div class="row">
+		              <div class="col-sm-12">
+		                <!-- text input -->
+		                <div class="form-group">
+			              
+			              <div class="col-sm-3">
+		                  	</div>
+		                  	<label>Lista de contratos:</label>
+							  <div class="col-sm-12">
+							  <div class="card-body table-striped table-in-card">
+							      <table class="table table-bordered" id="tableNormative">
+							          <thead class="thead-dark" >
+							              <tr style="font-size: .8em; text-align:center;">                            
+							                  <th scope="col">#</th>
+							                  <th scope="col">Nombres y Apellidos</th> 
+							                  <th scope="col">Inicio</th>
+							                  <th scope="col">Fin</th>
+							                  <th scope="col">Salario</th>               
+							                  <th scope="col">Observacion</th>
+							              </tr>
+							          </thead>
+
+							          <tbody>
+							            
+							            @foreach ($contracts as $contract)
+							            <tr style="font-size: .7em; text-align:center">                            
+							                <td class="dtr-control sorting_1" style="font-size: 1.2em; font-weight: bold; ">
+							                  {{$nro1=$nro1+1}}
+							                </td>
+							                
+							                <td style="font-size: 1.2em;font-weight: bold;">
+							                  {{$contract->employee-> name}} {{$contract->employee-> father_name}} {{$contract->employee-> mother_name}} 
+							                </td>
+							                <td style="font-size: 1.2em;font-weight: bold;">
+							                	<input style="font-weight: bold;
+                    text-align: right;background-color: #59a9ff;outline: none;border: 0;border-radius: 3px;padding: 0 3px;color: #fff;" type="date" readonly value="{{$contract-> start_contract}}">
+							                  
+							                </td>
+							                <td style="font-size: 1.2em;font-weight: bold;">
+							                	<input style="font-weight: bold;
+                    text-align: right;background-color: #e87c86;outline: none;border: 0;border-radius: 3px;padding: 0 3px;color: #fff;" type="date" readonly value="{{$contract-> end_contract}}">
+							                  
+							                </td>
+							                <td style="font-size: 1.2em;font-weight: bold; background: #f2bdcf;">
+							                  {{ $contract-> base_salary }}
+							                </td>
+							                <td style="font-size: 1.2em;font-weight: bold;">
+							                  {{$contract-> observation}}
+							                </td>
+							            </tr>
+							            @endforeach    
+							          </tbody>
+							      </table>  
+							  </div> 
+							  </div>
+		                </div>
+		              </div>
+		             </div>
                   </div>
                   <div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
                      <div class="row">

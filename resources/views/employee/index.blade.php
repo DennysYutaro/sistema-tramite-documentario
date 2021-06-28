@@ -71,20 +71,6 @@
                   </select>
                 </div>
               </div>
-              <div class="col-sm-8">
-                <!-- text input -->
-                <div class="form-group">
-                  <label>Email</label>
-                  <input type="email" name="email" class="form-control" placeholder="">
-                </div>
-              </div>
-              <div class="col-sm-4">
-                <!-- text input -->
-                <div class="form-group">
-                  <label>Telefono/Celular</label>
-                  <input type="text" name="phone" class="form-control" placeholder="">
-                </div>
-              </div>
               <div class="col-sm-4">
                 <!-- text input -->
                 <div class="form-group">
@@ -93,20 +79,6 @@
                     <option value="" selected> Seleccione... </option>
                     <option value="0" >NO</option>
                     <option value="1">SI</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-sm-4">
-                <!-- text input -->
-                <div class="form-group">
-                  <label>Pensión Familiar</label>
-                  <select name="pension" class="form-control">
-                    <option value="" selected>Seleccione...</option>
-                    <option value="Profuturo">Profuturo</option>
-                    <option value="AFP Integra">AFP Integra</option>
-                    <option value="Prima AFP">Prima AFP</option>
-                    <option value="AFP Habitat">AFP Habitat</option>
-                    <option value="ONP">ONP</option>
                   </select>
                 </div>
               </div>
@@ -120,7 +92,16 @@
                   </select>
                 </div>
               </div>
+              
               <div class="col-sm-8">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Telefono/Celular</label>
+                  <input type="text" name="phone" class="form-control" placeholder="">
+                </div>
+              </div>
+              
+              <div class="col-sm-4">
                 <div class="form-group">
                   <label>Agencia donde permanecera</label>
                   <select class="form-control" id="agency" name="agency_id">
@@ -131,14 +112,21 @@
                   </select>
                 </div>
               </div>
-              <div class="col-sm-8">
+              <div class="col-sm-12">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Email</label>
+                  <input type="email" name="email" class="form-control" placeholder="">
+                </div>
+              </div>
+              <div class="col-sm-12">
                 <!-- text input -->
                 <div class="form-group">
                   <label>Dirección de residencia</label>
                   <input name="address" type="text" class="form-control" placeholder="">
                 </div>
               </div>
-              <div class="col-sm-4">
+              <div class="col-sm-12">
                 <!-- text input -->
                 <div class="form-group">
                   <label>Referencia</label>
@@ -191,7 +179,7 @@
               <div class="col-sm-6">
                 <!-- text input -->
                 <div class="form-group">
-                  <label>Antecedentes Criminales(pdf)</label>
+                  <label>Antecedentes(pdf)</label>
                   <input accept=".pdf" name="criminal_record" type="file" id="ap" class="input-group-text btn-block"  name="criminal_record">
                 </div>
               </div>
