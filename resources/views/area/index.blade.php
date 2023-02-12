@@ -11,7 +11,7 @@
   <div class="card-header">
     <h3 class="card-title" style="font-weight: bold;"><i class="fas fa-street-view"></i> Lista de áreas de la Coopac</h3>
     <a class="btn btn-success btn-xs float-right" data-create={{1}} type="button">
-      <i class="fas fa-plus-square"></i> Registar nueva área
+      <i class="fas fa-plus-square"></i> REGISTRAR NUEVA AREA
     </a>
   </div>
   <div class="card-body">
