@@ -1,3 +1,3 @@
-## Sistema de Recursos Humanos de la Cooperativa de Ahorro y Crédito Qorilazo
+## Sistema de Tramite Documentario 
 
-Ing. Sullcahuaman Valdez Dennys Yutaro
+YAWAR TECH SAC - 2023
